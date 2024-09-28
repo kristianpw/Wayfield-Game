@@ -1,0 +1,592 @@
+local datastorageservice = game:GetService("DataStoreService")
+local playerdata = datastorageservice:GetDataStore("playerdata")
+local teleportservice = game:GetService("TeleportService")
+--local HTTP = game:GetService("HttpService")
+local RepStorage = game:GetService("ReplicatedStorage")
+local hanktrigger = game.ReplicatedStorage.HankDialogue:FindFirstChild("hanktrigger")
+local hanknokey = game.ReplicatedStorage.HankDialogue:FindFirstChild("hanknokey")
+local hankkeynospade = game.ReplicatedStorage.HankDialogue:FindFirstChild("hankkeynospade")
+local hankkeyandspade = game.ReplicatedStorage.HankDialogue:FindFirstChild("hankkeyandspade")
+local keygot = game.ReplicatedStorage:FindFirstChild("keygot")
+local shovelgot = game.ReplicatedStorage:FindFirstChild("shovelgot")
+local shovelgot2 = game.ReplicatedStorage:FindFirstChild("shovelgot2")
+local key2got = game.ReplicatedStorage:FindFirstChild("key2got")
+local dignoshovel = game.ReplicatedStorage:FindFirstChild("dignoshovel")
+local doornokey = game.ReplicatedStorage:FindFirstChild("doornokey")
+local dooropen = game.ReplicatedStorage:FindFirstChild("dooropen")
+local crowbargot = game.ReplicatedStorage:FindFirstChild("crowbargot")
+local manholeclick = game.Workspace.ManholeCover:FindFirstChild("ClickDetector")
+local covernocrowbar = game.ReplicatedStorage:FindFirstChild("covernocrowbar")
+local manholeopened = game.ReplicatedStorage:FindFirstChild("manholeopen")
+local oldmanscene = game.ReplicatedStorage:FindFirstChild("oldmanscene")
+local manholeshadow = game.Workspace.manholeshadow
+local newgameremote = game.ReplicatedStorage.newgame
+local startmenu = game.ReplicatedStorage.startmenu
+local startmenu2 = game.ReplicatedStorage.startmenu2
+local newgamebutton = game.ReplicatedStorage.newgamebutton
+local busintro = game.ReplicatedStorage.busintro
+local continuegame = game.ReplicatedStorage.continuegame
+local introfinished = game.ReplicatedStorage.introfinished
+local camerachange = game.ReplicatedStorage.camerachange
+local dropoffbuss = game.Workspace.Bustweenmodel
+local sewerstart = game.ReplicatedStorage.sewerstart
+local sewertp = game.ReplicatedStorage.sewertp
+local oldmantalking = game.ReplicatedStorage.oldmantalking
+local oldman = game.ReplicatedStorage.oldman
+local mainscriptloaded = game.ReplicatedStorage.mainscriptloaded
+local gamefinishedevent = game.ReplicatedStorage.gamefinished
+local digsound = game.Workspace.Sandboxmodel.sandboxbase.sound.Sound
+
+key1model = game.ReplicatedStorage.key1
+key2model = game.ReplicatedStorage.key2
+dugsandmodel = game.ReplicatedStorage.dugsand
+apartmentdooropenmodel = game.ReplicatedStorage.apartmentdooropen
+apartmentdoorclosedmodel = game.ReplicatedStorage.apartmentdoorclosed
+crowbarmodel = game.ReplicatedStorage.crowbar
+--hankmodel = game.Workspace.HankNPC
+--newgamemodel = game.Workspace.newgamebutton
+--newgameclickdetector = game.Workspace.newgamebutton:FindFirstChild("ClickDetector")
+--continuegamemodel = game.Workspace.continuebutton
+--continueclickdetector = game.Workspace.continuebutton:FindFirstChild("ClickDetector")
+local cam = workspace.CurrentCamera
+
+local rootparts = {}
+
+--load function
+
+local newgame = false
+local playerloc
+local loccheck1
+local loccheck2
+
+local function playerjoined(player)
+	
+	local playeruserid = "Player_"..player.UserId
+	
+	local success, errormessage = pcall(function()
+		local loadeddata = playerdata:GetAsync(playeruserid)
+		if loadeddata then
+			print("loaded date")
+			--local loadeddata = HTTP:JSONDecode(jsondata)
+			key1 = loadeddata.key1
+			spade = loadeddata.spade
+			dugsand = loadeddata.dugsand
+			key2 = loadeddata.key2
+			door = loadeddata.door
+			crowbar = loadeddata.crowbar
+			newgame = loadeddata.newgame
+			cutscenefinished = loadeddata.cutscenefinished
+			insewers = loadeddata.insewers
+			gamefinished = loadeddata.gamefinished
+			playerlocX = loadeddata.playerlocX
+			playerlocY = loadeddata.playerlocY
+			playerlocZ = loadeddata.playerlocZ
+			print(playerlocX, playerlocY, playerlocZ)
+			if playerlocX and playerlocY and playerlocZ then
+				playerloc = Vector3.new(playerlocX, playerlocY, playerlocZ)
+			end
+			print(key1)
+			print(spade)
+			print(key2)
+			print(dugsand)
+			print(door)
+			print(crowbar)
+			print(playerlocdata)
+			print(playerloc)
+			print(newgame)
+			print(cutscenefinished)
+			print(insewers)
+
+		end
+		if newgame == true then
+			newgameremote:FireClient(player)
+			print("newgame remote fired")
+		else
+			print("newgame = false")
+		end
+		print("end of loading Mainscript")
+		mainscriptloaded:FireClient(player)
+	end)
+	
+	local function characteradded(char)
+		local charroot = char.HumanoidRootPart
+		rootparts[player.UserId] = charroot
+		print("charroot")
+	end
+	
+	characteradded(player.Character or player.CharacterAdded:Wait())
+	player.CharacterAdded:Connect(characteradded)
+	
+	local teleportdata = teleportservice:GetLocalPlayerTeleportData()
+	if teleportdata ~= nil then
+		gamefinished = teleportdata.gamefinished
+	end
+end
+
+game.Players.PlayerAdded:Connect(playerjoined)
+
+for _, player in pairs(game.Players:GetPlayers()) do
+	spawn(function() playerjoined(player) end)
+end
+
+--Teleporting
+
+local function teleportsewer(player)
+	teleportservice:TeleportAsync(17014440605, {player})
+end
+
+--newgame button
+
+newgamebutton.OnServerEvent:Connect(function(player)
+	local function spawning()
+		newgame = true
+		cutscenefinished = false
+		print("new game started")
+		print(key1,spade,key2)
+		clonedkey1 = key1model:Clone()
+		clonedkey1.Parent = workspace
+		clonedkey1clickdetector = clonedkey1:FindFirstChild("ClickDetector")
+		if clonedkey1clickdetector then
+			clonedkey1clickdetector.MouseClick:Connect(gotkey)
+		end
+		cloneddugsand = dugsandmodel:Clone()
+		cloneddugsand.Parent = workspace
+		cloneddugsandclickdetector = cloneddugsand.sandclick:FindFirstChild("ClickDetector")
+		if cloneddugsandclickdetector then
+			cloneddugsandclickdetector.MouseClick:Connect(playerdug)
+		end
+		clonedkey2 = key2model:Clone()
+		clonedkey2.Parent = workspace
+		clonedkey2clickdetector = clonedkey2:FindFirstChild("ClickDetector")
+		if clonedkey2clickdetector then
+			clonedkey2clickdetector.MouseClick:Connect(gotkey2)
+		end
+		clonedapartmentdoorclosed = apartmentdoorclosedmodel:Clone()
+		clonedapartmentdoorclosed.Parent = workspace
+		apartmentdoorclick = clonedapartmentdoorclosed:FindFirstChild("ClickDetector")
+		if apartmentdoorclick then
+			apartmentdoorclick.MouseClick:Connect(apartmentdoor)
+		end
+		clonedcrowbar = crowbarmodel:Clone()
+		clonedcrowbar.Parent = workspace
+		clonedcrowbarclick = clonedcrowbar:FindFirstChild("ClickDetector")
+		if clonedcrowbarclick then
+			clonedcrowbarclick.MouseClick:Connect(crowbarget)
+		end
+		key1 = false
+		spade = false
+		dugsand = false
+		key2 = false
+		door = false
+		crowbar = false
+		insewers = false
+		print(key1,spade,dugsand,key2,crowbar)
+		return key1, spade, key2, dugsand, door, crowbar
+	end
+	local function buscutscene()
+		busintro:FireClient(player)
+	end
+	spawning()
+	buscutscene()
+end)
+
+--load game button
+
+continuegame.OnServerEvent:Connect(function(player)
+	local position = playerloc
+	local function playerPOS(position)
+		print(position)
+		local char = player.Character
+		if char then
+			char:MoveTo(position)
+		end
+	end
+	local function spawningplayer()
+		print("spawning player/camera change fired")
+		camerachange:FireClient(player)
+		dropoffbuss:Destroy()
+		loccheck1 = true
+		--player.Position = playerloc
+		--cam.CameraType = Enum.CameraType.Custom
+		--playerchars.CameraMode = Enum.CameraMode.LockFirstPerson
+	end
+	if cutscenefinished == false then
+		local function spawning()
+			clonedkey1 = key1model:Clone()
+			clonedkey1.Parent = workspace
+			clonedkey1clickdetector = clonedkey1:FindFirstChild("ClickDetector")
+			if clonedkey1clickdetector then
+				clonedkey1clickdetector.MouseClick:Connect(gotkey)
+			end
+			cloneddugsand = dugsandmodel:Clone()
+			cloneddugsand.Parent = workspace
+			cloneddugsandclickdetector = cloneddugsand.sandclick:FindFirstChild("ClickDetector")
+			if cloneddugsandclickdetector then
+				cloneddugsandclickdetector.MouseClick:Connect(playerdug)
+			end
+			clonedkey2 = key2model:Clone()
+			clonedkey2.Parent = workspace
+			clonedkey2clickdetector = clonedkey2:FindFirstChild("ClickDetector")
+			if clonedkey2clickdetector then
+				clonedkey2clickdetector.MouseClick:Connect(gotkey2)
+			end
+			clonedapartmentdoorclosed = apartmentdoorclosedmodel:Clone()
+			clonedapartmentdoorclosed.Parent = workspace
+			apartmentdoorclick = clonedapartmentdoorclosed:FindFirstChild("ClickDetector")
+			if apartmentdoorclick then
+				apartmentdoorclick.MouseClick:Connect(apartmentdoor)
+			end
+			clonedcrowbar = crowbarmodel:Clone()
+			clonedcrowbar.Parent = workspace
+			clonedcrowbarclick = clonedcrowbar:FindFirstChild("ClickDetector")
+			if clonedcrowbarclick then
+				clonedcrowbarclick.MouseClick:Connect(crowbarget)
+			end
+		end
+		local function buscutscene()
+			busintro:FireClient(player)
+		end
+		spawning()
+		buscutscene()
+	elseif cutscenefinished == true and key1 == false then
+		playerPOS(position)
+		spawningplayer()
+		clonedkey1 = key1model:Clone()
+		clonedkey1.Parent = workspace
+		clonedkey1clickdetector = clonedkey1:FindFirstChild("ClickDetector")
+		if clonedkey1clickdetector then
+			clonedkey1clickdetector.MouseClick:Connect(gotkey)
+		end
+		cloneddugsand = dugsandmodel:Clone()
+		cloneddugsand.Parent = workspace
+		cloneddugsandclickdetector = cloneddugsand.sandclick:FindFirstChild("ClickDetector")
+		if cloneddugsandclickdetector then
+			cloneddugsandclickdetector.MouseClick:Connect(playerdug)
+		end
+		clonedkey2 = key2model:Clone()
+		clonedkey2.Parent = workspace
+		clonedkey2clickdetector = clonedkey2:FindFirstChild("ClickDetector")
+		if clonedkey2clickdetector then
+			clonedkey2clickdetector.MouseClick:Connect(gotkey2)
+		end
+		clonedapartmentdoorclosed = apartmentdoorclosedmodel:Clone()
+		clonedapartmentdoorclosed.Parent = workspace
+		apartmentdoorclick = clonedapartmentdoorclosed:FindFirstChild("ClickDetector")
+		if apartmentdoorclick then
+			apartmentdoorclick.MouseClick:Connect(apartmentdoor)
+		end
+		clonedcrowbar = crowbarmodel:Clone()
+		clonedcrowbar.Parent = workspace
+		clonedcrowbarclick = clonedcrowbar:FindFirstChild("ClickDetector")
+		if clonedcrowbarclick then
+			clonedcrowbarclick.MouseClick:Connect(crowbarget)
+		end
+		print(key1,spade,key2,crowbar)
+	elseif key1 == true and dugsand == false then
+		playerPOS(position)
+		spawningplayer()
+		cloneddugsand = dugsandmodel:Clone()
+		cloneddugsand.Parent = workspace
+		cloneddugsandclickdetector = cloneddugsand.sandclick:FindFirstChild("ClickDetector")
+		if cloneddugsandclickdetector then
+			cloneddugsandclickdetector.MouseClick:Connect(playerdug)
+		end
+		clonedkey2 = key2model:Clone()
+		clonedkey2.Parent = workspace
+		clonedkey2clickdetector = clonedkey2:FindFirstChild("ClickDetector")
+		if clonedkey2clickdetector then
+			clonedkey2clickdetector.MouseClick:Connect(gotkey2)
+		end
+		clonedapartmentdoorclosed = apartmentdoorclosedmodel:Clone()
+		clonedapartmentdoorclosed.Parent = workspace
+		apartmentdoorclick = clonedapartmentdoorclosed:FindFirstChild("ClickDetector")
+		if apartmentdoorclick then
+			apartmentdoorclick.MouseClick:Connect(apartmentdoor)
+		end
+		clonedcrowbar = crowbarmodel:Clone()
+		clonedcrowbar.Parent = workspace
+		clonedcrowbarclick = clonedcrowbar:FindFirstChild("ClickDetector")
+		if clonedcrowbarclick then
+			clonedcrowbarclick.MouseClick:Connect(crowbarget)
+		end
+	elseif key1 == true and dugsand == true and key2 == false then
+		playerPOS(position)
+		spawningplayer()
+		clonedkey2 = key2model:Clone()
+		clonedkey2.Parent = workspace
+		clonedkey2clickdetector = clonedkey2:FindFirstChild("ClickDetector")
+		if clonedkey2clickdetector then
+			clonedkey2clickdetector.MouseClick:Connect(gotkey2)
+		end
+		clonedapartmentdoorclosed = apartmentdoorclosedmodel:Clone()
+		clonedapartmentdoorclosed.Parent = workspace
+		apartmentdoorclick = clonedapartmentdoorclosed:FindFirstChild("ClickDetector")
+		if apartmentdoorclick then
+			apartmentdoorclick.MouseClick:Connect(apartmentdoor)
+		end
+		clonedcrowbar = crowbarmodel:Clone()
+		clonedcrowbar.Parent = workspace
+		clonedcrowbarclick = clonedcrowbar:FindFirstChild("ClickDetector")
+		if clonedcrowbarclick then
+			clonedcrowbarclick.MouseClick:Connect(crowbarget)
+		end
+	elseif key1 == true and dugsand == true and key2 == true and door == false then
+		playerPOS(position)
+		spawningplayer()
+		clonedapartmentdoorclosed = apartmentdoorclosedmodel:Clone()
+		clonedapartmentdoorclosed.Parent = workspace
+		apartmentdoorclick = clonedapartmentdoorclosed:FindFirstChild("ClickDetector")
+		if apartmentdoorclick then
+			apartmentdoorclick.MouseClick:Connect(apartmentdoor)
+		end
+		clonedcrowbar = crowbarmodel:Clone()
+		clonedcrowbar.Parent = workspace
+		clonedcrowbarclick = clonedcrowbar:FindFirstChild("ClickDetector")
+		if clonedcrowbarclick then
+			clonedcrowbarclick.MouseClick:Connect(crowbarget)
+		end
+	elseif key1 == true and dugsand == true and key2 == true and door == true and crowbar == false then
+		playerPOS(position)
+		spawningplayer()
+		manholeclick.MaxActivationDistance = 32
+		clonedapartmentdooropen = apartmentdooropenmodel:Clone()
+		clonedapartmentdooropen.Parent = workspace
+		clonedcrowbar = crowbarmodel:Clone()
+		clonedcrowbar.Parent = workspace
+		clonedcrowbarclick = clonedcrowbar:FindFirstChild("ClickDetector")
+		if clonedcrowbarclick then
+			clonedcrowbarclick.MouseClick:Connect(crowbarget)
+		end
+	elseif key1 == true and dugsand == true and key2 == true and door == true and crowbar == true and insewers == false then
+		playerPOS(position)
+		spawningplayer()
+		manholeclick.MaxActivationDistance = 32
+		clonedapartmentdooropen = apartmentdooropenmodel:Clone()
+		clonedapartmentdooropen.Parent = workspace
+	elseif key1 == true and dugsand == true and key2 == true and door == true and crowbar == true and insewers == true then
+		sewertp:FireClient(player)
+		teleportsewer(player)
+	elseif key1 == true and dugsand == true and key2 == true and door == true and crowbar == true and insewers == true and gamefinished == true then
+		clonedapartmentdooropen = apartmentdooropenmodel:Clone()
+		clonedapartmentdooropen.Parent = workspace
+		local oldmanclone = oldman:Clone()
+		oldmanclone.Parent = game.Workspace
+	end
+end)
+
+startmenu.OnServerEvent:Connect(function(player)
+	startmenu2:FireClient(player)
+end)
+
+introfinished.OnServerEvent:Connect(function()
+	print("cutscenefinished = true")
+	cutscenefinished = true
+	loccheck2 = true
+	print(cutscenefinished)
+end)
+
+gamefinishedevent.OnServerEvent:Connect(function()
+	gamefinished = true
+end)
+	
+
+function gotkey(player)
+	keygot:FireClient(player)
+	key1 = true
+	clonedkey1:Destroy()
+	return key1
+end
+
+function playerdug(player)
+	print("player dug")
+	if spade == false then
+		print("player dug WITHOUT shovel")
+		dignoshovel:FireClient(player)
+	else
+		print("player dug WITH shovel")
+		digsound:Play()
+		dugsand = true
+		cloneddugsand:Destroy()
+		return dugsand
+	end
+end
+
+function gotkey2(player)
+	key2got:FireClient(player)
+	key2 = true
+	clonedkey2:Destroy()
+	return key2
+end
+
+function apartmentdoor(player)
+	if key2 == false then
+		doornokey:FireClient(player)
+	else
+		dooropen:FireClient(player)
+		door = true
+		manholeclick.MaxActivationDistance = 32
+	end
+end
+
+function crowbarget(player)
+	clonedcrowbar:Destroy()
+	crowbar = true
+	crowbargot:FireClient(player)
+end
+
+function manholeopen(player)
+	if crowbar == false then
+		covernocrowbar:FireClient(player)
+	elseif crowbar == true then
+		manholeopened:FireClient(player)
+		manholeclick:Destroy()
+		manholeshadow:Destroy()
+	end
+end
+
+manholeclick.MouseClick:Connect(manholeopen)
+
+local function enteredsewer(player)
+	print("entered sewers")
+	insewers = true
+	teleportsewer(player)
+end
+
+sewerstart.OnServerEvent:Connect(enteredsewer)
+
+local function Hank(player)
+	if key1 == false then
+		print("Get ma key!")
+		hanknokey:FireClient(player)
+		elseif key1 ==  true and spade == false then
+			spade = true
+			hankkeynospade:FireClient(player)
+			return spade
+		elseif key1 == true and spade == true then
+		hankkeyandspade:FireClient(player)
+		end
+end
+
+local function shovelgui(player)
+	shovelgot2:FireClient(player)
+end
+
+shovelgot.OnServerEvent:Connect(shovelgui)
+
+oldmanscene.OnServerEvent:Connect(function(player)
+	print("mainscript oldman function")
+	local clonedapartmentdooropen = apartmentdooropenmodel:Clone()
+	clonedapartmentdooropen.Parent = workspace
+	local oldmanclone = oldman:Clone()
+	oldmanclone.Parent = game.Workspace
+	local oldmanpos = game.Workspace.oldmanpos
+	local position = oldmanpos.Position
+	local char = player.Character
+	if char then
+		char:MoveTo(position)
+	end
+	camerachange:FireClient(player)
+	dropoffbuss:Destroy()
+	task.wait(0.5)
+	oldmantalking:FireClient(player)
+end)
+
+hanktrigger.OnServerEvent:Connect(Hank)
+
+--save function
+
+game.Players.PlayerRemoving:Connect(function(player)
+		local charroot = rootparts[player.UserId]
+		if charroot and loccheck1 == true or loccheck2 == true then
+			rootparts[player.UserId] = nil
+			charPOS = charroot.Position
+		print(charPOS)
+		--playerloc = nil
+		end
+	local playeruserid = "Player_"..player.UserId
+	local attempt = 1
+	
+	print(key1)
+	print(spade)
+	print(key2)
+	
+	
+	datatosave = {
+		key1 = key1;
+		spade = spade;
+		key2 = key2;
+		dugsand = dugsand;
+		crowbar = crowbar;
+		door = door;
+		newgame = newgame;
+		cutscenefinished = cutscenefinished;
+		insewers = insewers;
+		gamefinished = gamefinished
+		--playerloc = {charPOS.X, charPOS.Y, charPOS.Z}
+	}
+	if loccheck1 == true or loccheck2 == true then
+		print("loccheck save worked")
+		datatosave.playerlocX = charPOS.X
+		datatosave.playerlocY = charPOS.Y
+		datatosave.playerlocZ = charPOS.Z
+		print(datatosave.playerlocX, datatosave.playerlocY, datatosave.playerlocZ)
+	else
+		print(playerloc)
+		print("locchec didnt pass, saving old loc")
+		datatosave.playerlocX = playerloc.X
+		datatosave.playerlocY = playerloc.Y
+		datatosave.playerlocZ = playerloc.Z
+		print(datatosave.playerlocX, datatosave.playerlocY, datatosave.playerlocZ)
+	end
+	print(key1)
+	print(cutscenefinished)
+	--print(playerloc)
+	--local jsondata = HTTP:JSONEncode(datatosave)
+	repeat
+		success, errormessage = pcall(function()
+			playerdata:SetAsync(playeruserid, datatosave)
+		end)
+		attempt += 1
+		if not success then
+			print(errormessage)
+			wait(2)
+		end
+	until success or attempt == 5
+	
+	if success then
+		print("exited game and saved data")
+		print(key1)
+		print(spade)
+		print(key2)
+		print(newgame)
+	else
+		print("couldnt save")	
+	end
+end)
+
+---- Intro Cutscene
+
+local busriderend3 = game.ReplicatedStorage.NPCevents:FindFirstChild("busrider1end3")
+local busriderend4 = game.ReplicatedStorage.NPCevents:FindFirstChild("busrider1end4")
+local busriderend5 = game.ReplicatedStorage.NPCevents:FindFirstChild("busrider1end5")
+local busriderend6 = game.ReplicatedStorage.NPCevents:FindFirstChild("busrider1end6")
+local busriderstart3 = game.ReplicatedStorage.NPCevents:FindFirstChild("busrider1start3")
+local busriderstart4 = game.ReplicatedStorage.NPCevents:FindFirstChild("busrider1start4")
+local busriderstart5 = game.ReplicatedStorage.NPCevents:FindFirstChild("busrider1start5")
+local busriderstart6 = game.ReplicatedStorage.NPCevents:FindFirstChild("busrider1start6")
+
+busriderstart3.OnServerEvent:Connect(function(player)
+	busriderend3:FireClient(player)
+end)
+
+busriderstart4.OnServerEvent:Connect(function(player)
+	busriderend4:FireClient(player)
+end)
+
+busriderstart5.OnServerEvent:Connect(function(player)
+	busriderend5:FireClient(player)
+end)
+
+busriderstart6.OnServerEvent:Connect(function(player)
+	busriderend6:FireClient(player)
+end)

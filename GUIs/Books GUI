@@ -1,0 +1,243 @@
+local cam = game.Workspace.CurrentCamera
+local hoversound = script:FindFirstChild("HoverSound")
+local pagesound = script:FindFirstChild("PageSound")
+local closesound = script:FindFirstChild("CloseSound")
+
+local leftbutton = script.Parent.leftbutton
+local rightbutton = script.Parent.rightbutton
+local xbutton = script.Parent.xbutton
+
+local book1prox = game.Workspace.book1.book:FindFirstChild("ProximityPrompt")
+local book2prox = game.Workspace.book2.book:FindFirstChild("ProximityPrompt")
+local book3prox = game.Workspace.book3.book:FindFirstChild("ProximityPrompt")
+local book4prox = game.Workspace.book4.book:FindFirstChild("ProximityPrompt")
+local book5prox = game.Workspace.book5.book:FindFirstChild("ProximityPrompt")
+
+local book1open = game.Workspace.book1open
+local book1txt1 = book1open.page1:FindFirstChild("text1")
+local book1txt2 = book1open.page2:FindFirstChild("text2")
+local book1cam = game.Workspace.book1cam
+
+local book2open = game.Workspace.book2open
+local book2cam = game.Workspace.book2cam
+local book2txt1 = book2open.page1:FindFirstChild("text1")
+local book2txt2 = book2open.page2:FindFirstChild("text2")
+local book2txt3 = book2open.page1:FindFirstChild("text3")
+
+local book3open = game.Workspace.book3open
+local book3cam = game.Workspace.book3cam
+local book3txt1 = book3open.page2:FindFirstChild("text1")
+
+local book5open = game.Workspace.book5open
+local book5cam = game.Workspace.book5cam
+local book5txt1 = book5open.page1:FindFirstChild("text1")
+local book5txt2 = book5open.page2:FindFirstChild("text2")
+local book5txt3 = book5open.page1:FindFirstChild("text3")
+
+local bookpages ={book1txt1, book1txt2, book2txt1, book2txt2, book2txt3, book3txt1, book5txt1, book5txt2, book5txt3}
+
+local book1 = false
+local book2 = false
+local book3 = false
+local book4 = false
+local book5 = false
+
+local pagenumber = 1
+
+local a = {}
+local b = {}
+
+book1prox.Triggered:Connect(function()
+	local character = game.Players.LocalPlayer.Character
+	for i, v in pairs(character:GetDescendants())do
+		if v:IsA('BasePart') then
+			a[v] = v.Transparency
+			v.Transparency = 1
+		end
+	end
+	for i, v in pairs(book1open:GetDescendants())do
+		if v:IsA('BasePart') then
+			b[v] = v.Transparency
+			v.Transparency = 0
+		end
+	end
+	book1txt1.Transparency = 0
+	book1txt2.Transparency = 0
+	cam.CameraType = Enum.CameraType.Scriptable
+	cam.CFrame = book1cam.CFrame
+	book1 = true
+	xbutton.Visible = true
+	xbutton.Active = true
+end)
+
+book2prox.Triggered:Connect(function()
+	local character = game.Players.LocalPlayer.Character
+	for i, v in pairs(character:GetDescendants())do
+		if v:IsA('BasePart') then
+			a[v] = v.Transparency
+			v.Transparency = 1
+		end
+	end
+	for i, v in pairs(book2open:GetDescendants())do
+		if v:IsA('BasePart') then
+			b[v] = v.Transparency
+			v.Transparency = 0
+		end
+	end
+	book2txt1.Transparency = 0
+	book2txt2.Transparency = 0
+	cam.CameraType = Enum.CameraType.Scriptable
+	cam.CFrame = book2cam.CFrame
+	book2 = true
+	rightbutton.Visible = true
+	rightbutton.Active = true
+	xbutton.Visible = true
+	xbutton.Active = true
+end)
+
+book3prox.Triggered:Connect(function()
+	local character = game.Players.LocalPlayer.Character
+	for i, v in pairs(character:GetDescendants())do
+		if v:IsA('BasePart') then
+			a[v] = v.Transparency
+			v.Transparency = 1
+		end
+	end
+	for i, v in pairs(book3open:GetDescendants())do
+		if v:IsA('BasePart') then
+			b[v] = v.Transparency
+			v.Transparency = 0
+		end
+	end
+	book3txt1.Transparency = 0
+	cam.CameraType = Enum.CameraType.Scriptable
+	cam.CFrame = book3cam.CFrame
+	book3 = true
+	xbutton.Visible = true
+	xbutton.Active = true
+end)
+
+book5prox.Triggered:Connect(function()
+	local character = game.Players.LocalPlayer.Character
+	for i, v in pairs(character:GetDescendants())do
+		if v:IsA('BasePart') then
+			a[v] = v.Transparency
+			v.Transparency = 1
+		end
+	end
+	for i, v in pairs(book5open:GetDescendants())do
+		if v:IsA('BasePart') then
+			b[v] = v.Transparency
+			v.Transparency = 0
+		end
+	end
+	book5txt1.Transparency = 0
+	book5txt2.Transparency = 0
+	cam.CameraType = Enum.CameraType.Scriptable
+	cam.CFrame = book5cam.CFrame
+	book5 = true
+	rightbutton.Visible = true
+	rightbutton.Active = true
+	xbutton.Visible = true
+	xbutton.Active = true
+end)
+
+leftbutton.MouseEnter:Connect(function()
+	hoversound:Play()
+end)
+
+rightbutton.MouseEnter:Connect(function()
+	hoversound:Play()
+end)
+
+xbutton.MouseEnter:Connect(function()
+	hoversound:Play()
+end)
+
+rightbutton.MouseButton1Up:Connect(function()
+	pagesound:Play()
+	rightbutton.Visible = false
+	rightbutton.Active = false
+	leftbutton.Visible = true
+	leftbutton.Active = true
+	if book1 == true and pagenumber == 1 then
+		pagenumber = 2
+		book1txt1.Transparency = 1
+	elseif book2 == true and pagenumber == 1 then
+		pagenumber = 2
+		book2txt1.Transparency = 1
+		book2txt2.Transparency = 1
+		book2txt3.Transparency = 0
+	elseif book5 == true and pagenumber == 1 then
+		pagenumber = 2
+		book5txt1.Transparency = 1
+		book5txt2.Transparency = 1
+		book5txt3.Transparency = 0
+	end
+end)
+
+leftbutton.MouseButton1Up:Connect(function()
+	pagesound:Play()
+	leftbutton.Visible = false
+	leftbutton.Active = false
+	rightbutton.Visible = true
+	rightbutton.Active = true
+	if book1 == true and pagenumber == 2 then
+		pagenumber = 1
+		book1txt1.Transparency = 0
+	elseif book2 == true and pagenumber == 2 then
+		pagenumber = 1
+		book2txt1.Transparency = 0
+		book2txt2.Transparency = 0
+		book2txt3.Transparency = 1
+	elseif book5 == true and pagenumber == 2 then
+		pagenumber = 1
+		book5txt1.Transparency = 0
+		book5txt2.Transparency = 0
+		book5txt3.Transparency = 1
+	end
+end)
+
+xbutton.MouseButton1Up:Connect(function()
+	closesound:Play()
+	leftbutton.Visible = false
+	leftbutton.Active = false
+	rightbutton.Visible = false
+	rightbutton.Active = false
+	xbutton.Visible = false
+	xbutton.Active = false
+	for i, v in pairs(book1open:GetDescendants())do
+		if v:IsA('BasePart') then
+			b[v] = v.Transparency
+			v.Transparency = 1
+		end
+	end
+	for i, v in pairs(book2open:GetDescendants())do
+		if v:IsA('BasePart') then
+			b[v] = v.Transparency
+			v.Transparency = 1
+		end
+	end
+	for i, v in pairs(book3open:GetDescendants())do
+		if v:IsA('BasePart') then
+			b[v] = v.Transparency
+			v.Transparency = 1
+		end
+	end
+	for i, v in pairs(book5open:GetDescendants())do
+		if v:IsA('BasePart') then
+			b[v] = v.Transparency
+			v.Transparency = 1
+		end
+	end
+	for i, v in pairs(bookpages)do
+		v.Transparency = 1
+	end
+	cam.CameraType = Enum.CameraType.Custom
+	pagenumber = 1
+	book1 = false
+	book2 = false
+	book3 = false
+	book4 = false
+	book5 = false
+end)

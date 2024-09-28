@@ -1,0 +1,91 @@
+local keygot = game.ReplicatedStorage:FindFirstChild("keygot")
+local shovelgot = game.ReplicatedStorage:FindFirstChild("shovelgot2")
+local key2got = game.ReplicatedStorage:FindFirstChild("key2got")
+local crowbargot = game.ReplicatedStorage:FindFirstChild("crowbargot")
+local background = script.Parent:FindFirstChild("itemgotlabel")
+local tweenservice = game:GetService("TweenService")
+local keymodule = require(script:FindFirstChild("Keygot"))
+local shovelmodule = require(script:FindFirstChild("Shovelgot"))
+local key2module = require(script:FindFirstChild("Key2got"))
+local dignoshovelmodule = require(script:FindFirstChild("dignoshovel"))
+local dignoshovel = game.ReplicatedStorage:FindFirstChild("dignoshovel")
+local crowbargot = game.ReplicatedStorage:FindFirstChild("crowbargot")
+local crowbargotmodule = require(script:FindFirstChild("Crowbargot"))
+local doornokey = game.ReplicatedStorage:FindFirstChild("doornokey")
+local doornokeymodule = require(script:FindFirstChild("Doornokey"))
+local covernocrowbarmodule = require(script:FindFirstChild("covernocrowbar"))
+local covernocrowbar = game.ReplicatedStorage:FindFirstChild("covernocrowbar")
+local blackfade = script.Parent.blackfade
+local tweenservice = game:GetService("TweenService")
+local tweeninfo = TweenInfo.new(0.3, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+local teleporter = game.Workspace.teleporter
+local teleportservice = game:GetService("TeleportService")
+local player = game.Players.LocalPlayer
+local sewerstart = game.ReplicatedStorage.sewerstart
+local sewertp = game.ReplicatedStorage.sewertp
+local text = script.Parent.TextLabel
+
+background.Visible = false
+blackfade.Visible = false
+
+local function keygotgui()
+	keymodule.Activate()
+end
+
+local function shovelgotgui()
+	shovelmodule.Activate()
+end
+
+local function key2gotgui()
+	key2module.Activate()
+end
+
+local function dignoshovelfunc()
+	dignoshovelmodule.Activate()
+end
+
+local function crowbargotgui()
+	crowbargotmodule.Activate()
+end
+
+local function doornokeygui()
+	doornokeymodule.Activate()
+end
+
+local function covernocrowbargui()
+	covernocrowbarmodule.Activate()
+end
+
+local function teleportgui()
+	blackfade.Visible = true
+	local fade = tweenservice:Create(blackfade, tweeninfo, {Transparency = 0})
+	fade:Play()
+	
+end
+
+local function teleport(player)
+	print("teleporting player")
+	teleportgui()
+	sewerstart:FireServer()
+	text.Visible = true
+	while true do
+		text.Text = "Entering Sewers"
+		task.wait(1)
+		text.Text = "Entering Sewers."
+		task.wait(1)
+		text.Text = "Entering Sewers.."
+		task.wait(1)
+		text.Text = "Entering Sewers..."
+		task.wait(1)
+	end
+end
+
+teleporter.Touched:Connect(teleport)
+dignoshovel.OnClientEvent:Connect(dignoshovelfunc)
+keygot.OnClientEvent:Connect(keygotgui)
+shovelgot.OnClientEvent:Connect(shovelgotgui)
+key2got.OnClientEvent:Connect(key2gotgui)
+crowbargot.OnClientEvent:Connect(crowbargotgui)
+doornokey.OnClientEvent:Connect(doornokeygui)
+covernocrowbar.OnClientEvent:Connect(covernocrowbargui)
+sewertp.OnClientEvent:Connect(teleportgui)

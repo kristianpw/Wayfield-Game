@@ -1,0 +1,94 @@
+--Representative of code for a single NPC. Code is similar, but changed
+--for each NPC to account for different animation files and wait times
+--for varying animation times.
+
+local dialogue = script.Parent.Parent
+local textbox = dialogue:WaitForChild("ImageLabel")
+local textboxtext = dialogue.ImageLabel:WaitForChild("TextLabel")
+local tweenservice = game:GetService("TweenService")
+local button = script.Parent.Parent.ImageLabel:FindFirstChild("TextButton")
+local tweeninfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+local cam = game.Workspace.CurrentCamera
+local UIS = game:GetService("UserInputService")
+local input = UIS
+local active = false
+local player = game.Players.LocalPlayer
+local anim1 = script:WaitForChild('Animation1')
+local anim2 = script:WaitForChild('Animation2')
+local h = game.Workspace.Dserver3:WaitForChild('Humanoid') --change
+local animationTrack = h:LoadAnimation(anim1)
+local animationTrack2 = h:LoadAnimation(anim2)
+local textsound = script:FindFirstChild("textsound")
+
+textbox.Visible = false
+textboxtext.Visible = false
+button.Visible = false
+textbox.Size = UDim2.new(0,0,0,0)
+
+local module = {}
+
+local function opendialogue()
+	animationTrack:Play()
+	player.Character.Humanoid.WalkSpeed = 0
+	textbox.Visible = true
+	textbox:TweenSize(UDim2.new(0.35, 0, 0.25 ,0), Enum.EasingDirection.Out, Enum.EasingStyle.Sine, 0.5, false)
+	wait(0.5)
+	textboxtext.Visible = true
+end
+
+local function playtext(text, interval)
+	local breaktext
+	local starttime = tick()
+	textboxtext.Text = ""
+	
+	local function onInput(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			print("Dserver3 first text")
+			textboxtext.Text = text
+			breaktext = true
+		end
+	end
+	
+	local skiptext = game:GetService("UserInputService").InputBegan:Connect(onInput)
+	for _, letters in pairs(string.split(text, ""))do
+		textboxtext.Text ..= letters
+		local pitch = math.random(8,10)*0.1
+		textsound.Pitch = pitch
+		textsound:Play()
+		task.wait(interval)
+		if breaktext == true then
+			skiptext:Disconnect()
+			break
+		end
+	end
+	local endtime = tick()
+	local elapsed = starttime - endtime
+	print(elapsed)
+	animationTrack:Stop()
+	animationTrack2:Play()
+end
+
+local function waitforbutton()
+	button.Text = "Have you seen any other graffiti?" --change
+	button.Visible = true
+	button.MouseButton1Click:wait()
+	textboxtext.Text = ""
+	button.Visible = false
+end
+
+local function shovelgui()
+	
+end
+
+
+function module.Activate(text, interval)
+	if active then end
+	active = true
+	opendialogue()
+	playtext(text, interval)
+	wait(1)
+	waitforbutton()
+	animationTrack2:Stop()
+end
+
+return module

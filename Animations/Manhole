@@ -1,0 +1,22 @@
+local tweenservice = game:GetService("TweenService")
+local manholeopen = game.ReplicatedStorage:FindFirstChild("manholeopen")
+local manhole = game.Workspace.ManholeCover:FindFirstChild("cover")
+local sound = game.Workspace.ManholeCover.Rim.Sound
+
+local tweeninfo1 = TweenInfo.new(0.5, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+local tweeninfo2 = TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+local goal = {}
+goal.CFrame = CFrame.new(33.22, 244.897, -41.135) * CFrame.Angles(0,0,math.rad(4))
+local goal2 = {}
+goal2.CFrame = CFrame.new(37.07, 244.897, -41.135) * CFrame.Angles(0,0,0)
+
+local function open()
+	local tween1 = tweenservice:Create(manhole, tweeninfo1, goal)
+	local tween2 = tweenservice:Create(manhole, tweeninfo2, goal2)
+	sound:Play()
+	tween1:Play()
+	wait(0.5)
+	tween2:Play()
+end
+
+manholeopen.OnClientEvent:Connect(open)

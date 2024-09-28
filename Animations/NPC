@@ -1,0 +1,43 @@
+--Represents code that would be within every NPC.
+
+local h = game.Workspace.cultmember8:FindFirstChild("Humanoid")
+local anim = script:FindFirstChild('Animation')
+local animtrack = h:LoadAnimation(anim)
+local timer = 4
+local trigger = game.ReplicatedStorage:FindFirstChild("cultworshipstart")
+local trigger2 = game.ReplicatedStorage:FindFirstChild("cultworshipend")
+
+local active = true
+task.wait(0.1)
+
+local function stopanim()
+	animtrack:Stop()
+	task.cancel(animthread)
+	active = false
+end
+
+function animthreadcreation()
+	return coroutine.create(function()
+		while true do
+			if active == true then
+				animtrack:Play()
+			end
+			wait(timer)
+			animtrack:Stop()
+		end
+	end)
+end
+
+animthread = animthreadcreation()
+coroutine.resume(animthread)
+
+local function startanim()
+	active = true
+	if coroutine.status(animthread) == "dead" then
+		animthread = animthreadcreation()
+	end
+	coroutine.resume(animthread)
+end
+
+trigger.OnServerEvent:Connect(stopanim)
+trigger2.OnServerEvent:Connect(startanim)

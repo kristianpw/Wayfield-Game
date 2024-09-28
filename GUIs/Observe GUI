@@ -1,0 +1,99 @@
+local cam = game.Workspace.CurrentCamera
+local module = require(script:FindFirstChild("ModuleScript"))
+
+--cams and proxes
+local poster1cam = game.Workspace.poster1cam
+local poster1prox = game.Workspace.poster1proximity.observe:FindFirstChild("ProximityPrompt")
+local poster2cam = game.Workspace.poster2cam
+local poster2prox = game.Workspace.poster2proximity.observe:FindFirstChild("ProximityPrompt")
+local poster3cam = game.Workspace.poster3cam
+local poster3prox = game.Workspace.poster3proximity.observe:FindFirstChild("ProximityPrompt")
+
+local newspaper1prox = game.Workspace.newspaper1proximity.observe:FindFirstChild("ProximityPrompt")
+local newspaper1cam = game.Workspace.newspaper1cam
+local newspaper1 = game.Workspace.newspaper1
+local newspaper2prox = game.Workspace.newspaper2proximity.observe:FindFirstChild("ProximityPrompt")
+local newspaper2cam = game.Workspace.newspaper2cam
+local newspaper2 = game.Workspace.newspaper2
+local newspaper3prox = game.Workspace.newspaper3proximity.observe:FindFirstChild("ProximityPrompt")
+local newspaper3cam = game.Workspace.newspaper3cam
+local newspaper3 = game.Workspace.newspaper3
+
+local graffiti1prox = game.Workspace.graffiti1proximity.observe:FindFirstChild("ProximityPrompt")
+local graffiti1cam = game.Workspace.graffiti1cam
+local graffiti2prox = game.Workspace.graffiti2proximity.observe:FindFirstChild("ProximityPrompt")
+local graffiti2cam = game.Workspace.graffiti2cam
+local graffiti3prox = game.Workspace.graffiti3proximity.observe:FindFirstChild("ProximityPrompt")
+local graffiti3cam = game.Workspace.graffiti3cam
+local graffiti4prox = game.Workspace.graffiti4proximity.observe:FindFirstChild("ProximityPrompt")
+local graffiti4cam = game.Workspace.graffiti4cam
+local graffiti5prox = game.Workspace.graffiti5proximity.observe:FindFirstChild("ProximityPrompt")
+local graffiti5cam = game.Workspace.graffiti5cam
+
+local a = {}
+
+local function proxtriggered(proxtrigger, proxcamera)
+	character = game.Players.LocalPlayer.Character
+	for i, v in pairs(character:GetDescendants())do
+		if v:IsA('BasePart') then
+			a[v] = v.Transparency
+			v.Transparency = 1
+		end
+	end
+	proxtrigger.Enabled = false
+	cam.CameraType = Enum.CameraType.Scriptable
+	cam.CFrame = proxcamera.CFrame
+end
+
+local function dialogueactivate(proxtrigger)
+	if proxtrigger == newspaper1prox then
+		newspaper1.Transparency = 0
+		module.Activate()
+		proxtrigger.Enabled = true
+		newspaper1.Transparency = 1
+	elseif proxtrigger == newspaper2prox then
+		newspaper2.Transparency = 0
+		module.Activate()
+		proxtrigger.Enabled = true
+		newspaper2.Transparency = 1
+	elseif proxtrigger == newspaper3prox then
+		newspaper3.Transparency = 0
+		module.Activate()
+		proxtrigger.Enabled = true
+		newspaper3.Transparency = 1
+	else
+		module.Activate()
+		proxtrigger.Enabled = true
+	end
+	for i, v in pairs(character:GetDescendants())do
+		if v:IsA('BasePart') then
+			v.Transparency = a[v]
+		end
+	end
+end
+
+
+local proxtable = {
+	{prox = poster1prox, camera = poster1cam},
+	{prox = poster2prox, camera = poster2cam},
+	{prox = poster3prox, camera = poster3cam},
+	{prox = newspaper1prox, camera = newspaper1cam},
+	{prox = newspaper2prox, camera = newspaper2cam},
+	{prox = newspaper3prox, camera = newspaper3cam},
+	{prox = graffiti1prox, camera = graffiti1cam},
+	{prox = graffiti2prox, camera = graffiti2cam},
+	{prox = graffiti3prox, camera = graffiti3cam},
+	{prox = graffiti4prox, camera = graffiti4cam},
+	{prox = graffiti5prox, camera = graffiti5cam}
+}
+
+for _, data in pairs(proxtable) do
+	local proxvar = data.prox
+	local camvar = data.camera
+	proxvar.Triggered:Connect(function()
+		proxtriggered(proxvar, camvar)
+	end)
+	proxvar.Triggered:Connect(function()
+		dialogueactivate(proxvar)
+	end)
+end

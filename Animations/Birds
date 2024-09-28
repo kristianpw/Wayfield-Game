@@ -1,0 +1,107 @@
+local bird1 =  game.Workspace.birdred:WaitForChild("HumanoidRootPart")
+local bird2 = game.Workspace.birdyellow:WaitForChild("Torso")
+local bird3 = game.Workspace.birdtan1:WaitForChild("Torso")
+local bird4 = game.Workspace.birdtan2:WaitForChild("Torso")
+local Touchtable = {}
+local active = false
+local flyanim = script:FindFirstChild("Flyinganimation")
+local bird1anim = game.Workspace.birdred:FindFirstChild("Humanoid")
+local bird1animtrack = bird1anim:LoadAnimation(flyanim)
+local birddetector = game.Workspace.birddetector
+local Tweenservice = game:GetService("TweenService")
+local birdstart = game.ReplicatedStorage.NPCevents:FindFirstChild("birdstart")
+local birdend = game.ReplicatedStorage.NPCevents:FindFirstChild("birdend")
+local birdwait = game.ReplicatedStorage.NPCevents:FindFirstChild("birdwait")
+local birdwaitend = game.ReplicatedStorage.NPCevents:FindFirstChild("birdwaitend")
+local birdeatresume = game.ReplicatedStorage.NPCevents:FindFirstChild("birdeatingresume")
+local birdwaiting = game.ReplicatedStorage.NPCevents:FindFirstChild("birdwaiting")
+local tweeninfoflying = TweenInfo.new(
+	1,
+	Enum.EasingStyle.Sine,
+	Enum.EasingDirection.In,
+	0,
+	false,
+	0	
+)
+local tweeninfo = TweenInfo.new(
+	0.1,
+	Enum.EasingStyle.Linear,
+	Enum.EasingDirection.In,
+	0,
+	false,
+	0
+)
+
+local bird1takeoff = {}
+bird1takeoff.CFrame = CFrame.new(-72.39, 246.936, 99.402) * CFrame.Angles(-7,math.rad(81),math.rad(0.2))
+local bird1fly = {}
+bird1fly.CFrame = CFrame.new(-43.099, 250.575, 104.051) * CFrame.Angles(-7,math.rad(81),math.rad(0.2))
+local bird1land = {}
+bird1fly.CFrame = CFrame.new(-42.648, 250.631, 104.123) * CFrame.Angles(-0,math.rad(157),math.rad(-0))
+
+local bird1tween1 = Tweenservice:Create(bird1, tweeninfo, bird1takeoff)
+local bird1tween2 = Tweenservice:Create(bird1, tweeninfoflying, bird1fly)
+local bird1tween3 = Tweenservice:Create(bird1, tweeninfo, bird1land)
+
+local bird2takeoff = {}
+bird2takeoff.CFrame = CFrame.new(-43.011, 250.577, 103.498) * CFrame.Angles(7,math.rad(-99),math.rad(-0.2))
+local bird2fly = {}
+bird2fly.CFrame = CFrame.new(-72.681, 246.889, 98.637) * CFrame.Angles(7,math.rad(-99),math.rad(-0.2))
+local bird2land = {}
+bird2land.CFrame = CFrame.new(-73.317, 246.422, 98.779) * CFrame.Angles(0,math.rad(-49),math.rad(0))
+
+local bird1tween4 = Tweenservice:Create(bird1, tweeninfo, bird2takeoff)
+local bird1tween5 = Tweenservice:Create(bird1, tweeninfoflying, bird2fly)
+local bird1tween6 = Tweenservice:Create(bird1, tweeninfo, bird2land)
+
+birddetector.Touched:Connect(function()
+	birdwaiting:FireServer()
+end)
+
+birddetector.Touched:Connect(function(object)
+	if object.Parent:FindFirstChild("Humanoid") then
+		local character = object.Parent
+		if not table.find(Touchtable, object) then
+			table.insert(Touchtable, object)
+		end
+	end
+	if active == false then
+		active = true
+		birdend:FireServer()
+		bird1animtrack:Play()
+		bird1tween1:Play()
+		birdwait:FireServer()
+		wait(0.1)
+		bird1tween2:Play()
+		wait(1)
+		bird1tween3:Play()
+		wait(0.1)
+		bird1animtrack:Stop()
+		wait(16)
+	else
+		return
+	end
+end)
+
+
+birddetector.TouchEnded:Connect(function(object)
+	if object.Parent:FindFirstChild("Humanoid") then
+		if table.find(Touchtable, object) then
+			table.remove(Touchtable, table.find(Touchtable, object))
+		end
+		if #Touchtable == 0 then
+			birdwaitend:FireServer()
+		end
+	end
+end)
+
+birdeatresume.OnClientEvent:Connect(function()
+	bird1tween4:Play()
+	wait(0.1)
+	bird1tween5:Play()
+	wait(1)
+	bird1tween6:Play()
+	wait(0.1)
+	active = false
+	birdstart:FireServer()
+end)

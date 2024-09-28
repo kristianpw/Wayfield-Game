@@ -1,0 +1,33 @@
+local tweenservice = game:GetService("TweenService")
+
+local music = script:FindFirstChild("Music")
+local ambience = script:FindFirstChild("Ambience")
+local player = script.Parent
+local root = player:WaitForChild("HumanoidRootPart")
+local outside = game.Workspace.Sounds:WaitForChild("Outside")
+local currentArea = nil
+local ambientstart = game.ReplicatedStorage:FindFirstChild("ambientstart")
+local ambientend = game.ReplicatedStorage:FindFirstChild("ambientend")
+
+while true do
+	wait(0.05)
+	local raycast = Ray.new(root.Position, root.CFrame.UpVector * 1000)
+	local part = workspace:FindPartOnRayWithWhitelist(raycast, {outside})
+	if part and part.Parent == outside then
+		if currentArea ~= outside then
+			local musicstart = tweenservice:Create(music, TweenInfo.new(0.4), {Volume = 0.1})
+			local ambiencestart = tweenservice:Create(ambience, TweenInfo.new(0.4), {Volume = 1})
+			musicstart:Play()
+			ambiencestart:Play()
+			wait(0.5)
+			currentArea = outside
+		end
+	else
+		local musicend = tweenservice:Create(music, TweenInfo.new(0.4), {Volume = 0})
+		local ambienceend = tweenservice:Create(ambience, TweenInfo.new(0.4), {Volume = 0})
+		musicend:Play()
+		ambienceend:Play()
+		wait(0.5)
+		currentArea = nil
+	end
+end

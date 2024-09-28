@@ -1,0 +1,121 @@
+local cam = game.Workspace.CurrentCamera
+local player = game.Players.LocalPlayer
+local char = player.Character
+local screengui = script.Parent
+local endscreen = script.Parent.endscreen
+local donatescreen = script.Parent.Donate
+local donatebutton = script.Parent.donatebutton
+local donate10button = script.Parent.robux10button
+local donate50button = script.Parent.robux50button
+local donate100button = script.Parent.robux100button
+local donate250button = script.Parent.robux250button
+local donate500button = script.Parent.robux500button
+local donate1000button = script.Parent.robux1000button
+local xbutton = script.Parent.xbutton
+local hoversound = script.Sound
+local backbutton = script.Parent.backbutton
+local oldmantalking = game.ReplicatedStorage:FindFirstChild("oldmantalking")
+local campos = game.Workspace.oldmanpos
+local player = game.Players.LocalPlayer
+local talk1 = require(script:FindFirstChild("dialogue1"))
+local talk2 = require(script:FindFirstChild("dialogue2"))
+local talk3 = require(script:FindFirstChild("dialogue3"))
+
+local function camerachange()
+	player.Character.Humanoid.JumpPower = 0
+	player.Character.Humanoid.WalkSpeed = 0
+	cam.CameraType = Enum.CameraType.Scriptable
+	player.CameraMode = Enum.CameraMode.LockFirstPerson
+	cam.CFrame = campos.CFrame	
+end
+
+oldmantalking.OnClientEvent:Connect(function(player)
+	camerachange()
+	task.wait(5)
+	talk1.Activate("Thanks for your help. You really saved my skin back there.")
+	talk2.Activate("I'd been tracking that cult for months, but they ambushed me when I followed them into the sewers.")
+	talk3.Activate("Wayfield owes its thanks to you, although they'll never know it.")
+	endscreen.Visible = true
+	donatebutton.Visible = true
+	donatebutton.Active = true
+	xbutton.Visible = true
+	xbutton.Active = true
+end)
+
+donatebutton.MouseEnter:Connect(function()
+	hoversound:Play()
+end)
+
+backbutton.MouseEnter:Connect(function()
+	hoversound:Play()
+end)
+
+donate10button.MouseEnter:Connect(function()
+	hoversound:Play()
+end)
+
+donate50button.MouseEnter:Connect(function()
+	hoversound:Play()
+end)
+
+donate100button.MouseEnter:Connect(function()
+	hoversound:Play()
+end)
+
+donate250button.MouseEnter:Connect(function()
+	hoversound:Play()
+end)
+
+donate500button.MouseEnter:Connect(function()
+	hoversound:Play()
+end)
+
+donate1000button.MouseEnter:Connect(function()
+	hoversound:Play()
+end)
+
+xbutton.MouseEnter:Connect(function()
+	hoversound:Play()
+end)
+
+donatebutton.MouseButton1Up:Connect(function()
+	donatebutton.Visible = false
+	endscreen.Visible = false
+	donatescreen.Visible = true
+	donate10button.Visible = true
+	donate10button.Active = true
+	donate50button.Visible = true
+	donate50button.Active = true
+	donate100button.Visible = true
+	donate100button.Active = true
+	donate250button.Visible = true
+	donate250button.Active = true
+	donate500button.Visible = true
+	donate500button.Active = true
+	donate1000button.Visible = true
+	donate1000button.Active = true
+end)
+
+xbutton.MouseButton1Up:Connect(function()
+	cam.CameraType = Enum.CameraType.Custom
+	char.Humanoid.WalkSpeed = 16
+	endscreen.Visible = false
+	xbutton.Visible = false
+	xbutton.Active = false
+	donatebutton.Active = false
+	donatebutton.Visible = false
+	donatebutton.Visible = false
+	donate10button.Visible = false
+	donate10button.Active = false
+	donate50button.Visible = false
+	donate50button.Active = false
+	donate100button.Visible = false
+	donate100button.Active = false
+	donate250button.Visible = false
+	donate250button.Active = false
+	donate500button.Visible = false
+	donate500button.Active = false
+	donate1000button.Visible = false
+	donate1000button.Active = false
+	donatescreen.Visible = false
+end)

@@ -1,0 +1,293 @@
+local main = {}
+
+main.SoundsId = {
+	["Grass"] = {"rbxassetid://7003103879",
+		"rbxassetid://9126742396",
+		"rbxassetid://9126741427",
+		"rbxassetid://9126742333",
+		"rbxassetid://9126742215",
+		"rbxassetid://9126742271",
+		"rbxassetid://9126742031",
+		"rbxassetid://9126741934",
+		"rbxassetid://9126742105",
+		"rbxassetid://9126741826",
+		"rbxassetid://9126741594",
+		"rbxassetid://9126741512",
+		"rbxassetid://9126741741",
+		"rbxassetid://9126741674"
+	},
+
+	["Concrete"] = {"rbxassetid://6876504577",
+		"rbxassetid://9126746167",
+		"rbxassetid://9126746098",
+		"rbxassetid://9126745995",
+		"rbxassetid://9126745877",
+		"rbxassetid://9126745774",
+		"rbxassetid://9126745574",
+		"rbxassetid://9126745336",
+		"rbxassetid://9126745241",
+		"rbxassetid://9126745445",
+		"rbxassetid://9126745052",
+		"rbxassetid://9126745141",
+		"rbxassetid://9126745676",
+		"rbxassetid://9126744969",
+		"rbxassetid://9126744894",
+		"rbxassetid://9126744639",
+		"rbxassetid://9126744789",
+		"rbxassetid://9126744481"
+	},
+
+	["Metal"] = {"rbxassetid://6876957898",
+		"rbxassetid://9126737728",
+		"rbxassetid://9126736554",
+		"rbxassetid://9126737597",
+		"rbxassetid://9126737668",
+		"rbxassetid://9126737506",
+		"rbxassetid://9126737412",
+		"rbxassetid://9126737315",
+		"rbxassetid://9126737212",
+		"rbxassetid://9126736947",
+		"rbxassetid://9126737081",
+		"rbxassetid://9126736863",
+		"rbxassetid://9126736806",
+		"rbxassetid://9126736642",
+		"rbxassetid://9126736721"
+	},
+
+	["Carpet"] = {"rbxassetid://133705377",
+		"rbxassetid://9126748130",
+		"rbxassetid://9126747861",
+		"rbxassetid://9126747720",
+		"rbxassetid://9126747529",
+		"rbxassetid://9126747412",
+		"rbxassetid://9126747283",
+		"rbxassetid://9126746732",
+		"rbxassetid://9126746837",
+		"rbxassetid://9126747132",
+		"rbxassetid://9126746984",
+		"rbxassetid://9126746598",
+		"rbxassetid://9126746481",
+		"rbxassetid://9126746371",
+		"rbxassetid://9126746291"
+	},
+
+	["Rock"] = {"rbxassetid://8031021863"
+	},
+
+	["Snow"] = {--"rbxassetid://7002934832",
+		"rbxassetid://9126732128",
+		"rbxassetid://9126731099",
+		"rbxassetid://9126732016",
+		"rbxassetid://9126731951",
+		"rbxassetid://9126731877",
+		"rbxassetid://9126731632",
+		"rbxassetid://9126731493",
+		"rbxassetid://9126731343",
+		"rbxassetid://9126731790",
+		"rbxassetid://9126731243",
+		"rbxassetid://9126731169",
+		"rbxassetid://9126730861"
+	},
+
+	--Snow
+	--[Enum.Material.Snow] = "rbxassetid://7437372937", --normal snow sound
+	--[Enum.Material.Snow] = "rbxassetid://6540859678", --normal snow sound
+
+	["Dirt"] = {"rbxassetid://6877211005",
+		"rbxassetid://9126744390",
+		"rbxassetid://9126744718",
+		"rbxassetid://9126744263",
+		"rbxassetid://9126744157",
+		"rbxassetid://9126744066",
+		"rbxassetid://9126744009",
+		"rbxassetid://9126743796",
+		"rbxassetid://9126743938",
+		"rbxassetid://9126743711",
+		"rbxassetid://9126743879",
+		"rbxassetid://9126743613",
+		"rbxassetid://9126743481",
+		"rbxassetid://9126743338",
+		"rbxassetid://9126743086"
+		
+	},
+
+	["Sand"] = {"rbxassetid://265653329",
+		"rbxassetid://9126733118",
+		"rbxassetid://9126733408",
+		"rbxassetid://9126733225",
+		"rbxassetid://9126732675",
+		"rbxassetid://9126732571",
+		"rbxassetid://9126732962",
+		"rbxassetid://9126732962",
+		"rbxassetid://9126732457",
+		"rbxassetid://9126732862",
+		"rbxassetid://9126732776",
+		"rbxassetid://9126732334",
+		"rbxassetid://9126732253"
+	},
+
+	["Wood"] = {"rbxassetid://7002935021",
+		"rbxassetid://9126931624",
+		"rbxassetid://9126931515",
+		"rbxassetid://9126931417",
+		"rbxassetid://9126931322",
+		"rbxassetid://9126931699",
+		"rbxassetid://9126931235",
+		"rbxassetid://9126931169",
+		"rbxassetid://9126931026",
+		"rbxassetid://9126930953",
+		"rbxassetid://9126930885",
+		"rbxassetid://9126930789",
+		"rbxassetid://9126930647",
+		"rbxassetid://9126930516",
+		"rbxassetid://9126930598",
+		"rbxassetid://9126930718"
+	},
+
+	["Water"] = {"rbxassetid://9117946641",
+		"rbxassetid://9117946851",
+		"rbxassetid://9117947974",
+		"rbxassetid://9117948637",
+		"rbxassetid://9117947037",
+		"rbxassetid://9117947550",
+		"rbxassetid://9117949457",
+		"rbxassetid://9117948915"
+	},
+	
+	["Tile"] = {"rbxassetid://9126742971",
+		"rbxassetid://9126730713",
+		"rbxassetid://9126730782",
+		"rbxassetid://9126731037",
+		"rbxassetid://9126730980",
+		"rbxassetid://9126730651",
+		"rbxassetid://9126730563",
+		"rbxassetid://9126730279",
+		"rbxassetid://9126730403",
+		"rbxassetid://9126730056",
+		"rbxassetid://9126730172",
+		"rbxassetid://9126729836",
+		"rbxassetid://9126730472",
+		"rbxassetid://9126729938",
+		"rbxassetid://9126729706"
+		}
+}
+
+main.Materials = {
+	[Enum.Material.Grass] = main.SoundsId.Grass,
+	[Enum.Material.LeafyGrass] = main.SoundsId.Grass,
+
+	[Enum.Material.Concrete] = 		main.SoundsId.Concrete,
+	[Enum.Material.Brick] = 		main.SoundsId.Concrete,
+	[Enum.Material.Asphalt] = 		main.SoundsId.Concrete,
+	[Enum.Material.Pavement] = 		main.SoundsId.Concrete,
+
+	[Enum.Material.Cobblestone] = 	main.SoundsId.Rock,
+	[Enum.Material.Sandstone] =		main.SoundsId.Rock,
+	[Enum.Material.Rock] = 			main.SoundsId.Rock,
+	[Enum.Material.Basalt] = 		main.SoundsId.Rock,
+	[Enum.Material.Limestone] = 	main.SoundsId.Rock,
+	[Enum.Material.Slate] = 		main.SoundsId.Rock,
+
+	[Enum.Material.Plastic] = 		main.SoundsId.Tile,
+	[Enum.Material.Marble] = 		main.SoundsId.Tile,
+	[Enum.Material.Neon] = 			main.SoundsId.Tile,
+	[Enum.Material.Granite] = 		main.SoundsId.Tile,
+	[Enum.Material.Glass] = 		main.SoundsId.Tile,
+
+	[Enum.Material.Wood] = 			main.SoundsId.Wood,
+	[Enum.Material.WoodPlanks] = 	main.SoundsId.Wood,
+
+	[Enum.Material.CorrodedMetal] = main.SoundsId.Metal,
+	[Enum.Material.DiamondPlate] = 	main.SoundsId.Metal,
+	[Enum.Material.Metal] = 		main.SoundsId.Metal,
+
+	[Enum.Material.Ground] = 		main.SoundsId.Dirt,
+	[Enum.Material.Mud] = 			main.SoundsId.Dirt,
+
+	[Enum.Material.Fabric] = 		main.SoundsId.Carpet,
+
+	[Enum.Material.Snow] = 			main.SoundsId.Dirt,
+	[Enum.Material.Ice] = 			main.SoundsId.Snow,
+	[Enum.Material.Glacier] = 		main.SoundsId.Snow,
+
+	[Enum.Material.Sand] = 			main.SoundsId.Sand,
+	[Enum.Material.Salt] = 			main.SoundsId.Sand,
+
+	[Enum.Material.CrackedLava] =   main.SoundsId.Water
+}
+
+
+local function speedcheck(humanoid)
+	local walkspeed = humanoid.WalkSpeed
+	local magnitude = humanoid.MoveDirection.Magnitude
+	local material = humanoid.FloorMaterial
+	
+	if walkspeed > 0 and magnitude > 0 and material ~= nil then
+		return true
+	end
+	return false
+end
+
+local function getmaterial(raycastresult)
+	local floormaterial = raycastresult --floormaterial to material
+	local soundtable = main.Materials[floormaterial] --goodup to here
+	local randomsound = soundtable[math.random(#soundtable)]
+	if randomsound ~= nil then
+		return randomsound
+	end
+	return nil
+end
+
+local function shootraycast(rayorigin, raydirection, raycastparams)
+	local raycastresult = workspace:Raycast(rayorigin, raydirection, raycastparams)
+	if raycastresult then
+		return raycastresult.Material
+	end
+	return nil
+end
+
+local function createfootstep(sound, root, character)
+	local rayorigin = root.Position
+	local raydirection = Vector3.new(0,-4,0)
+	local raycastparams = RaycastParams.new()
+	raycastparams.FilterDescendantsInstances = {character}
+	
+	local raycastresult = shootraycast(rayorigin, raydirection, raycastparams)
+	if raycastresult ~= nil then
+		local newsound = getmaterial(raycastresult)
+		sound.SoundId = newsound
+		
+		local newfootstep = sound:Clone()
+		newfootstep.Name = "FootStep"
+		newfootstep.PlaybackSpeed = math.random(9,11)/10
+		newfootstep.Parent = root
+		newfootstep:Play()
+		newfootstep.Ended:Connect(function()
+			newfootstep:Destroy()
+		end)
+	end
+end
+
+game.Players.PlayerAdded:Connect(function(player)
+	player.CharacterAdded:Connect(function(character)
+		
+		local humanoid = character:WaitForChild("Humanoid")
+		local root = character:WaitForChild("HumanoidRootPart")
+		
+		local newfootstep = Instance.new("Sound")
+		newfootstep.Parent = root
+		newfootstep.Volume = 0.5
+		newfootstep.RollOffMode = Enum.RollOffMode.InverseTapered
+		newfootstep.MinDistance = 15
+		newfootstep.MaxDistance = 35
+		while humanoid.Health > 0 do
+			--print("footsteps heartbeat")
+			task.wait(0.4)
+			if speedcheck(humanoid) then
+				--print("footstep playing")
+				createfootstep(newfootstep, root, character)
+			end
+		end
+	
+	end)
+end)

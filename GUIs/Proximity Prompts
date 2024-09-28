@@ -1,0 +1,75 @@
+local proximity = game:GetService("ProximityPromptService")
+local players = game:GetService("Players")
+local localplayer = players.LocalPlayer
+local screengui = localplayer:WaitForChild("PlayerGui")
+local customprompt = game.ReplicatedStorage:FindFirstChild("Prompt")
+local replicated = game:GetService("ReplicatedStorage")
+local tweenservice = game:GetService("TweenService")
+
+local inputframe = replicated.Prompt:FindFirstChild("InputFrame")
+local textbutton = replicated.Prompt:FindFirstChild("TextButton")
+local frame = inputframe:FindFirstChild("Frame")
+local imagelabeltalk = inputframe:FindFirstChild("Talk")
+local imagelabelread = inputframe:FindFirstChild("Read")
+local observe = inputframe:FindFirstChild("Observe")
+local buttonimage = frame:FindFirstChild("ButtonImage")
+--local promptparts = {inputframe, textbutton, frame, imagelabel, buttonimage}
+
+local function getscreengui()
+	local playergui = screengui:FindFirstChild("ProximityPrompts")
+	if playergui == nil then
+		playergui = Instance.new("ScreenGui")
+		playergui.Name = "ProximityPrompt"
+		playergui.Parent = screengui
+		playergui.ResetOnSpawn = false
+	end
+	return playergui
+end
+
+local function createprompt(prompt, inputtype, playergui)
+	
+	local tweeninfo = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+	local tweenfadeout = {}
+	local tweenfadein = {}
+	
+	local promptclone = customprompt:Clone()
+	promptclone.Adornee = prompt.Parent
+	promptclone.Parent = playergui
+	
+	local highlight = prompt.Parent.Parent:FindFirstChild("Highlight")
+	
+	local function updateimagelabel()
+		local prompttype = prompt.Parent.Name
+		if prompttype == "book" then
+			highlight.OutlineTransparency = 0
+			promptclone.InputFrame.Read.ImageTransparency = 0
+		elseif prompttype == "observe" then
+			promptclone.InputFrame.Observe.ImageTransparency = 0
+		else
+			promptclone.InputFrame.Talk.ImageTransparency = 0
+		end
+	end
+	
+	updateimagelabel()
+	
+	local function removeprompt()
+		promptclone.Parent = nil
+		highlight.OutlineTransparency = 1
+	end
+	
+	return removeprompt
+end
+
+proximity.PromptShown:Connect(function(prompt, inputtype, playergui)
+	if prompt.Style == Enum.ProximityPromptStyle.Default then
+		return
+	end
+	local playergui = getscreengui()
+	
+	local cleanupfunc = createprompt(prompt, inputtype, playergui)
+	--print(prompt)
+	
+	prompt.PromptHidden:Wait()
+
+	cleanupfunc()
+end)

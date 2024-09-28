@@ -1,0 +1,226 @@
+local cutscenestart = game.Workspace:WaitForChild("cutscenestart")
+local tweenservice = game:GetService("TweenService")
+local teleportservice = game:GetService("TeleportService")
+local char = game.Players.LocalPlayer.Character
+local cam = game.Workspace.CurrentCamera
+local cam1 = game.Workspace:WaitForChild("cam1")
+local campos1 = game.Workspace:WaitForChild("campos1")
+local campos2 = game.Workspace:WaitForChild("campos2")
+local campos3 = game.Workspace:WaitForChild("campos3")
+
+-- Characters
+
+local cultleader = game.Workspace.cultleader:FindFirstChild("Humanoid")
+local oldman = game.Workspace.Oldman:FindFirstChild("Humanoid")
+local belethhumanoid = game.Workspace.Beleth:FindFirstChild("Humanoid")
+local member1 = game.Workspace.cultmember1:FindFirstChild("Humanoid")
+local member2 = game.Workspace.cultmember2:FindFirstChild("Humanoid")
+local member3 = game.Workspace.cultmember3:FindFirstChild("Humanoid")
+local member4 = game.Workspace.cultmember4:FindFirstChild("Humanoid")
+local member5 = game.Workspace.cultmember5:FindFirstChild("Humanoid")
+local member6 = game.Workspace.cultmember6:FindFirstChild("Humanoid")
+local member7 = game.Workspace.cultmember7:FindFirstChild("Humanoid")
+local member8 = game.Workspace.cultmember8:FindFirstChild("Humanoid")
+
+-- Animations
+
+local finalleader = script.finalleader
+local finaloldman = script.finalman
+local anim1 = script.leadersummon1
+local finaleaderanim = cultleader:LoadAnimation(finalleader)
+local finaloldmananim = oldman:LoadAnimation(finaloldman)
+local leaderanim1 = cultleader:LoadAnimation(anim1)
+local oldmananim = oldman:LoadAnimation(anim1)
+local anim2 = script.demonroar
+local belethanim = belethhumanoid:LoadAnimation(anim2)
+local anim3 = script.memberpause1
+local anim4 = script.memberpause2
+local anim5 = script.memberpause3
+local member1pause = member1:LoadAnimation(anim5)
+local member2pause = member2:LoadAnimation(anim3)
+local member3pause = member3:LoadAnimation(anim4)
+local member4pause = member4:LoadAnimation(anim5)
+local member5pause = member5:LoadAnimation(anim3)
+local member6pause = member6:LoadAnimation(anim4)
+local member7pause = member7:LoadAnimation(anim4)
+local member8pause = member8:LoadAnimation(anim3)
+
+-- Assets
+
+local blackscreen = script.ScreenGui.blackscreen
+local portal = game.Workspace:WaitForChild("demonportal")
+local can = game.Workspace:WaitForChild("bloxycan")
+local textbox = script.ScreenGui.text
+
+-- Replicated
+
+local leaderidlestop = game.ReplicatedStorage:FindFirstChild("cultleaderstart")
+local oldmantrigger = game.ReplicatedStorage:FindFirstChild("oldmanstart")
+local culttrigger = game.ReplicatedStorage:FindFirstChild("cultworshipstart")
+local cultsoundsoff = game.ReplicatedStorage:FindFirstChild("cultsoundsoff")
+
+-- Sounds
+
+local cansound = can:WaitForChild("Sound")
+local belethroar = game.Workspace.Beleth.Head:FindFirstChild("Sound")
+local portalsound = game.Workspace.Beleth.Head:FindFirstChild("Sound2")
+local wandsnap = game.Workspace.campos1:FindFirstChild("Sound")
+--local cultchant = game.Workspace.cultmiddle.Circle:FindFirstChild("Sound2")
+
+-- Tweening
+
+local canpos1 = game.Workspace.canpos1.CFrame
+local canpos2 = game.Workspace.canpos2.CFrame
+local canpos3 = game.Workspace.canpos3.CFrame
+local cangoal = can.Position + Vector3.new(0,0,2)
+local portalpos2 = portal.Position + Vector3.new(0,0,-1)
+local portalsize2 = portal.Size + Vector3.new(0,15,0)
+local portalsize3 = portal.Size + Vector3.new(15,15,0)
+local belethroot = game.Workspace.Beleth:FindFirstChild("HumanoidRootPart")
+local belethpos = {}
+--belethpos.CFrame = belethroot.CFrame + Vector3.new(0,0,-5.2)
+belethpos.CFrame = belethroot.CFrame * CFrame.new(0,0,-5.2)
+local belethpos2 = {}
+--belethpos2.CFrame = belethroot.CFrame + Vector3.new(0,0,5.2)
+belethpos2.CFrame = belethroot.CFrame * CFrame.new(0,0,5.2)
+
+local tweeninfo1 = TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+local tweeninfo2 = TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+local tweeninfo3 = TweenInfo.new(3, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+local tweeninfo4 = TweenInfo.new(6, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+local tweeninfo5 = TweenInfo.new(15, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+
+local camgoal1 = {}
+camgoal1.CFrame = CFrame.new(cam1.Position, campos2.Position)
+local camgoal2 = {}
+camgoal2.CFrame = CFrame.new(cam1.Position, campos3.Position)
+local camgoal3 = {}
+camgoal3.CFrame = CFrame.new(cam1.Position, campos1.Position)
+
+local camerazoom = tweenservice:Create(cam, tweeninfo1, {FieldOfView = 60})
+local blackfadein = tweenservice:Create(blackscreen, tweeninfo1, {ImageTransparency = 0})
+local blackfadeout = tweenservice:Create(blackscreen, tweeninfo1, {ImageTransparency = 1})
+local portaltween1 = tweenservice:Create(portal, tweeninfo2, {Position = portalpos2})
+local portaltween2 = tweenservice:Create(portal, tweeninfo3, {Size = portalsize2})
+local portaltween3 = tweenservice:Create(portal, tweeninfo3, {Size = portalsize3})
+local portaltween4 = tweenservice:Create(portal, tweeninfo2, {Size = Vector3.new(0,0,0)})
+local belethtween = tweenservice:Create(belethroot, tweeninfo4, belethpos)
+local belethtween2 = tweenservice:Create(belethroot, tweeninfo5, belethpos2)
+local camtween1 = tweenservice:Create(cam, tweeninfo2, camgoal1)
+local camtween2 = tweenservice:Create(cam, tweeninfo2, camgoal2)
+local camtween3 = tweenservice:Create(cam, tweeninfo2, camgoal3)
+local portalsoundtween = tweenservice:Create(portalsound, tweeninfo4, {Volume = 20})
+local portalsoundtween2 = tweenservice:Create(portalsound, tweeninfo3, {Volume = 0})
+--local chantsoundtween = tweenservice:Create(cultchant, tweeninfo2, {Volume = 0})
+local cantween1 = tweenservice:Create(can, tweeninfo1, {Position = cangoal})
+local cantween2 = tweenservice:Create(can, tweeninfo1, {CFrame = canpos1})
+local cantween3 = tweenservice:Create(can, tweeninfo1, {CFrame = canpos2})
+local cantween4 = tweenservice:Create(can, tweeninfo1, {CFrame = canpos3})
+
+cutscenestart.Touched:Connect(function()
+	local light = game.Workspace.cultleader:FindFirstChild("Right Arm"):FindFirstChild("wand").lightpart.Light
+	local emitter = game.Workspace.cultleader:FindFirstChild("Right Arm"):FindFirstChild("wand").lightpart.ParticleEmitter
+	local lighttween1 = tweenservice:Create(light, tweeninfo1, {Brightness = 4})
+	local emittertween1 = tweenservice:Create(emitter, tweeninfo1, {Rate = 2})
+	local lighttween2 = tweenservice:Create(light, tweeninfo1, {Brightness = 0})
+	local emittertween2 = tweenservice:Create(emitter, tweeninfo1, {Rate = 0}) --may want to change to a tweeninfo with a time of 0
+	local dots = 0
+	local function loadingtext()
+		textbox.Text = "Returning to Wayfield" ..string.rep(".", dots % 4)
+		task.wait(1)
+	end
+	char.Humanoid.WalkSpeed = 0
+	char.Humanoid.JumpPower = 0
+	cutscenestart:Destroy()
+	blackscreen.Active = true
+	blackfadein:Play()
+	task.wait(1.5)
+	cantween1:Play()
+	leaderidlestop:FireServer()
+	leaderanim1:Play()
+	camerazoom:Play()
+	cam.CameraType = Enum.CameraType.Scriptable
+	cam.CFrame = cam1.CFrame
+	blackfadeout:Play()
+	task.wait(4)
+	lighttween1:Play()
+	task.wait(1)
+	emittertween1:Play()
+	task.wait(6)
+	portaltween1:Play()
+	task.wait(1)
+	camtween1:Play()
+	portalsoundtween:Play()
+	task.wait(2)
+	portaltween2:Play()
+	task.wait(3)
+	portaltween3:Play()
+	task.wait(3)
+	belethtween:Play()
+	task.wait(6.5)
+	belethanim:Play()
+	belethroar:Play()
+	task.wait(4)
+	
+	camtween3:Play()
+	leaderanim1:Stop()
+	oldmantrigger:FireServer()
+	finaleaderanim:Play()
+	finaloldmananim:Play()
+	task.wait(11)
+	
+	
+	camtween2:Play()
+	cantween2:Play()
+	task.wait(1)
+	cansound:Play()
+	local cultchant = game.Workspace.cultmiddle.Circle:FindFirstChild("Sound")
+	local chantsoundtween = tweenservice:Create(cultchant, tweeninfo2, {Volume = 0})
+	cultsoundsoff:FireServer()
+	chantsoundtween:Play()
+	member1pause:Play()
+	member2pause:Play()
+	member3pause:Play()
+	member4pause:Play()
+	member5pause:Play()
+	member6pause:Play()
+	member7pause:Play()
+	member8pause:Play()
+	cantween3:Play()
+	camtween3:Play()
+	task.wait(0.6) --13.6
+	culttrigger:FireServer()
+	task.wait(2.5) --17:00
+	cansound.Volume = 0 --need to adjust to happen at the right time
+	wandsnap:Play()
+	task.wait(0.4)
+	lighttween2:Play()
+	emittertween2:Play()
+	task.wait(1.5)
+	camtween1:Play()
+	task.wait(3.5)
+	belethtween2:Play()
+	task.wait(7)
+	portaltween2:Play()
+	task.wait(1.5)
+	portaltween4:Play()
+	portalsoundtween2:Play()
+	task.wait(2)
+	blackfadein:Play()
+	task.wait(1.5)
+	local teleportdata = {
+		gamefinished = true
+	}
+	local player = game.Players:GetPlayerFromCharacter(char)
+	teleportservice:Teleport(9876933238, player, teleportdata)
+	while true do
+		textbox.Text = "Returning to Wayfield"
+		task.wait(1)
+		textbox.Text = "Returning to Wayfield."
+		task.wait(1)
+		textbox.Text = "Returning to Wayfield.."
+		task.wait(1)
+		textbox.Text = "Returning to Wayfield..."
+		task.wait(1)
+	end
+end)

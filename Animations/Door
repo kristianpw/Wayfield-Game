@@ -1,0 +1,27 @@
+local tweenservice = game:GetService("TweenService")
+local dooropen = game.ReplicatedStorage:FindFirstChild("dooropen")
+
+
+local doortweeninfo = TweenInfo.new(
+	2,
+	Enum.EasingStyle.Sine,
+	Enum.EasingDirection.Out,
+	0,
+	false
+)
+
+local function dooropening ()
+	local door1 = game.Workspace:WaitForChild("apartmentdoorclosed").door.base
+	local hinge = game.Workspace:WaitForChild("apartmentdoorclosed").hinge
+	local click = game.Workspace:WaitForChild("apartmentdoorclosed").ClickDetector
+	local sound = game.Workspace.Doorcreak:FindFirstChild("Sound")
+	local dooropencframe = {}
+	dooropencframe.CFrame = hinge.CFrame * CFrame.Angles(math.rad(100), 0, 0)
+		print("door tween")
+		local doortween = tweenservice:Create(hinge, doortweeninfo, dooropencframe)
+		doortween:Play()
+		sound:Play()
+		click:Destroy()
+end
+
+dooropen.OnClientEvent:Connect(dooropening)

@@ -1,1 +1,1 @@
-# Wayfield-Game
+Wayfield game was coded using Lua on the ROBLOX platform. This was my first experience with coding. RoCruise game is better representative of my current coding skills.

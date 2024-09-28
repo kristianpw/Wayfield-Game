@@ -1,0 +1,216 @@
+local tweenservice = game:GetService("TweenService")
+local mainmenu = script.Parent
+local newgamebutton = script.Parent.newgamebutton
+local continuebutton = script.Parent.continuebutton
+--local continue2button
+local creditsbutton = script.Parent.creditsbutton
+local donatebutton = script.Parent.donatebutton
+local continuebuttondisabled = script.Parent.continuebuttondisabled
+local backbutton = script.Parent.backbutton
+local credits = script.Parent.Credits
+local donate = script.Parent.Donate
+local donate10button = script.Parent.robux10button
+local donate50button = script.Parent.robux50button
+local donate100button = script.Parent.robux100button
+local donate250button = script.Parent.robux250button
+local donate500button = script.Parent.robux500button
+local donate1000button = script.Parent.robux1000button
+local newgameremote = game.ReplicatedStorage.newgame
+local newgame
+local startmenu = game.ReplicatedStorage.startmenu2
+local cam = game.Workspace.CurrentCamera
+local menucam = game.Workspace.mainmenucam
+local content = game:GetService("ContentProvider")
+local menuassets = game.StarterGui.MainMenu:GetChildren()
+local hoversound = script.HoverSound
+local black = script.Parent.black
+local continuegame = game.ReplicatedStorage.continuegame
+local newgamefunc = game.ReplicatedStorage.newgamebutton
+local player = game.Players.LocalPlayer.Character
+local wayfieldsign = game.ReplicatedStorage.WayfieldSign
+local signclone
+
+local tweeninfo = TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+local blackfade1 = tweenservice:Create(black, tweeninfo, {ImageTransparency = 0})
+local blackfade2 = tweenservice:Create(black, tweeninfo, {ImageTransparency = 1})
+
+content:PreloadAsync(menuassets)
+
+wait ()
+pcall(function()
+	local startergui = game:GetService("StarterGui")
+	startergui:SetCore("TopbarEnabled", false)
+end)
+
+local function newgamefunction()
+	newgame = true
+end
+
+local function loadingmenu()
+	signclone = wayfieldsign:Clone()
+	signclone.Parent = game.Workspace
+	player.Humanoid.WalkSpeed = 0
+	player.Humanoid.JumpPower = 0
+	cam.CameraType = Enum.CameraType.Scriptable
+	cam.CFrame = menucam.CFrame
+	newgamebutton.Visible = true
+	newgamebutton.Active = true
+	donatebutton.Visible = true
+	donatebutton.Active = true
+	creditsbutton.Visible = true
+	creditsbutton.Active = true
+	if newgame == true then
+		print("newgame was true")
+		continuebutton.Visible = true
+		continuebutton.Active = true
+	else
+		print("newgame was false")
+		continuebuttondisabled.Visible = true
+	end
+	print("end of loading mainmenu")
+end
+
+continuebutton.MouseEnter:Connect(function()
+	hoversound:Play()
+end)
+
+creditsbutton.MouseEnter:Connect(function()
+	hoversound:Play()
+end)
+
+donatebutton.MouseEnter:Connect(function()
+	hoversound:Play()
+end)
+
+backbutton.MouseEnter:Connect(function()
+	hoversound:Play()
+end)
+
+newgamebutton.MouseEnter:Connect(function()
+	hoversound:Play()
+end)
+
+donate10button.MouseEnter:Connect(function()
+	hoversound:Play()
+end)
+
+donate50button.MouseEnter:Connect(function()
+	hoversound:Play()
+end)
+
+donate100button.MouseEnter:Connect(function()
+	hoversound:Play()
+end)
+
+donate250button.MouseEnter:Connect(function()
+	hoversound:Play()
+end)
+
+donate500button.MouseEnter:Connect(function()
+	hoversound:Play()
+end)
+
+donate1000button.MouseEnter:Connect(function()
+	hoversound:Play()
+end)
+
+
+newgameremote.OnClientEvent:Connect(newgamefunction)
+startmenu.OnClientEvent:Connect(loadingmenu)
+
+newgamebutton.MouseButton1Up:Connect(function()
+	blackfade1:Play()
+	wait(1)
+	signclone:Destroy()
+	newgamefunc:FireServer()
+	wait(4)
+	continuebutton.Visible = false
+	continuebuttondisabled.Visible = false
+	newgamebutton.Visible = false
+	donatebutton.Visible = false
+	creditsbutton.Visible = false
+	blackfade2:Play()
+	wait(1)
+	mainmenu.Enabled = false
+end)
+
+continuebutton.MouseButton1Up:Connect(function()
+	blackfade1:Play()
+	wait(1)
+	signclone:Destroy()
+	continuegame:FireServer()
+	wait(4)
+	continuebutton.Visible = false
+	continuebuttondisabled.Visible = false
+	newgamebutton.Visible = false
+	donatebutton.Visible = false
+	creditsbutton.Visible = false
+	blackfade2:Play()
+	wait(1)
+	mainmenu.Enabled = false
+end)
+
+creditsbutton.MouseButton1Up:Connect(function()
+	continuebutton.Visible = false
+	continuebuttondisabled.Visible = false
+	newgamebutton.Visible = false
+	donatebutton.Visible = false
+	creditsbutton.Visible = false
+	credits.Visible = true
+	backbutton.Visible = true
+	backbutton.Active = true
+end)
+
+donatebutton.MouseButton1Up:Connect(function()
+	continuebutton.Visible = false
+	continuebuttondisabled.Visible = false
+	newgamebutton.Visible = false
+	donatebutton.Visible = false
+	creditsbutton.Visible = false
+	donate.Visible = true
+	backbutton.Visible = true
+	backbutton.Active = true
+	donate10button.Visible = true
+	donate10button.Active = true
+	donate50button.Visible = true
+	donate50button.Active = true
+	donate100button.Visible = true
+	donate100button.Active = true
+	donate250button.Visible = true
+	donate250button.Active = true
+	donate500button.Visible = true
+	donate500button.Active = true
+	donate1000button.Visible = true
+	donate1000button.Active = true
+end)
+
+backbutton.MouseButton1Up:Connect(function()
+	credits.Visible = false
+	donate.Visible = false
+	backbutton.Visible = false
+	backbutton.Active = false
+	donate10button.Visible = false
+	donate10button.Active = false
+	donate50button.Visible = false
+	donate50button.Active = false
+	donate100button.Visible = false
+	donate100button.Active = false
+	donate250button.Visible = false
+	donate250button.Active = false
+	donate500button.Visible = false
+	donate500button.Active = false
+	donate1000button.Visible = false
+	donate1000button.Active = false
+	newgamebutton.Visible = true
+	newgamebutton.Active = true
+	donatebutton.Visible = true
+	donatebutton.Active = true
+	creditsbutton.Visible = true
+	creditsbutton.Active = true
+	if newgame == true then
+		continuebutton.Visible = true
+		continuebutton.Active = true
+	else
+		continuebuttondisabled.Visible = true
+	end
+end)

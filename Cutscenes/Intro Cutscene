@@ -1,0 +1,196 @@
+local busrider1 = require(script:FindFirstChild("Busrider1"))
+local busrider2 = require(script:FindFirstChild("Busrider2"))
+local busrider3 = require(script:FindFirstChild("Busrider3"))
+local busrider4 = require(script:FindFirstChild("Busrider4"))
+local busrider5 = require(script:FindFirstChild("Busrider5"))
+local busrider6 = require(script:FindFirstChild("Busrider6"))
+local bus2anim = script:FindFirstChild("bus2")
+local busanim = game.Workspace.Bustweenmodel:FindFirstChild("AnimationController")
+local bus2animtrack = busanim:LoadAnimation(bus2anim)
+local bus3anim = script:FindFirstChild("bus3")
+local bus3animtrack = busanim:LoadAnimation(bus3anim)
+local busriderstart1 = game.ReplicatedStorage.NPCevents:FindFirstChild("busrider1start1")
+local busriderend1 = game.ReplicatedStorage.NPCevents:FindFirstChild("busrider1end1")
+local busriderstart2 = game.ReplicatedStorage.NPCevents:FindFirstChild("busrider1start2")
+local busriderend2 = game.ReplicatedStorage.NPCevents:FindFirstChild("busrider1end2")
+local busriderstart3 = game.ReplicatedStorage.NPCevents:FindFirstChild("busrider1start3")
+local busriderstart4 = game.ReplicatedStorage.NPCevents:FindFirstChild("busrider1start4")
+local busriderstart5 = game.ReplicatedStorage.NPCevents:FindFirstChild("busrider1start5")
+local busriderstart6 = game.ReplicatedStorage.NPCevents:FindFirstChild("busrider1start6")
+local busriderend3 = game.ReplicatedStorage.NPCevents:FindFirstChild("busrider1end3")
+local busintro = game.ReplicatedStorage.busintro
+local player = game:GetService("Players").LocalPlayer
+local char = player.Character
+local cam = game.Workspace.CurrentCamera
+local busridercam = game.Workspace:FindFirstChild("busridercam")
+local busriderprox = game.Workspace.busriderprox:FindFirstChild("ProximityPrompt")
+local whitefade = script.Parent.WhiteFade
+local tweenservice = game:GetService("TweenService")
+local campos1 = game.Workspace.campos1
+local campos2 = game.Workspace.campos2
+local charspawn = game.Workspace.charspawn
+local bussound = game.Workspace.Bussound.Sound
+local snoresound = game.Workspace.Busrider2.Head.Sound
+local bustweenmodel = game.Workspace.Bustweenmodel.Bus:FindFirstChild("Bus Base")
+local busmodel = game.Workspace.Bustweenmodel
+local introfinished = game.ReplicatedStorage.introfinished
+local screengui = script.Parent
+
+local tweeninfo = TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+local tweeninfo2 = TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+local whitefadetweenout = tweenservice:Create(whitefade, tweeninfo, {ImageTransparency = 0})
+local whitefadetweenin = tweenservice:Create(whitefade, tweeninfo, {ImageTransparency = 1})
+local bussoundtween = tweenservice:Create(bussound, tweeninfo, {Volume = 0})
+local snoresoundtween = tweenservice:Create(snoresound, tweeninfo, {Volume = 0})
+local bussoundtween2 = tweenservice:Create(bussound, tweeninfo, {Volume = 12})
+local snoresoundtween2 = tweenservice:Create(snoresound, tweeninfo, {Volume = 15})
+local bustween1info = {}
+bustween1info.CFrame = CFrame.new(20.56, 250.585, -67.87) * CFrame.Angles(0, math.rad(90), 0)
+local bustween2info = {}
+bustween2info.CFrame = CFrame.new(20.56, 250.585, 10.15) * CFrame.Angles(0, math.rad(90), 0)
+local bustween3info = {}
+bustween3info.CFrame = CFrame.new(19.93, 250.585, 34.68) * CFrame.Angles(0, math.rad(88), 0)
+local bustween4info = {}
+bustween4info.CFrame = CFrame.new(19.65, 250.585, 38.06) * CFrame.Angles(0, math.rad(80), 0)
+local bustween5info = {}
+bustween5info.CFrame = CFrame.new(19.06, 250.585, 41.44) * CFrame.Angles(0, math.rad(65), 0)
+local bustween6info = {}
+bustween6info.CFrame = CFrame.new(17.88, 250.585, 44.73) * CFrame.Angles(0, math.rad(50), 0)
+local bustween7info = {}
+bustween7info.CFrame = CFrame.new(15.86, 250.585, 47.15) * CFrame.Angles(0, math.rad(40), 0)
+local bustween8info = {}
+bustween8info.CFrame = CFrame.new(12.61, 250.585, 48.72) * CFrame.Angles(0, math.rad(25), 0)
+local bustween9info = {}
+bustween9info.CFrame = CFrame.new(9.41, 250.585, 49.55) * CFrame.Angles(0, math.rad(10), 0)
+local bustween10info = {}
+bustween10info.CFrame = CFrame.new(5.79, 250.585, 49.8) * CFrame.Angles(0, math.rad(5), 0)
+local bustween11info = {}
+bustween11info.CFrame = CFrame.new(2.47, 250.585, 49.91) * CFrame.Angles(0, math.rad(1), 0)
+local bustween12info = {}
+bustween12info.CFrame = CFrame.new(-157.4, 250.585, 49.91) * CFrame.Angles(0, math.rad(0), 0)
+
+local bustweeninfo1 = TweenInfo.new(8, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+local bustweeninfo2 = TweenInfo.new(6, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+local bustweeninfo3 = TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.In)
+local bustweeninfo4 = TweenInfo.new(0.3, Enum.EasingStyle.Linear, Enum.EasingDirection.In)
+local bustweeninfo5 = TweenInfo.new(5, Enum.EasingStyle.Linear, Enum.EasingDirection.In)
+
+whitefade.Active = false
+local bustween1 = tweenservice:Create(bustweenmodel, bustweeninfo1, bustween1info)
+local bustween2 = tweenservice:Create(bustweenmodel, bustweeninfo2, bustween2info)
+local bustween3 = tweenservice:Create(bustweenmodel, bustweeninfo3, bustween3info)
+local bustween4 = tweenservice:Create(bustweenmodel, bustweeninfo4, bustween4info)
+local bustween5 = tweenservice:Create(bustweenmodel, bustweeninfo4, bustween5info)
+local bustween6 = tweenservice:Create(bustweenmodel, bustweeninfo4, bustween6info)
+local bustween7 = tweenservice:Create(bustweenmodel, bustweeninfo4, bustween7info)
+local bustween8 = tweenservice:Create(bustweenmodel, bustweeninfo4, bustween8info)
+local bustween9 = tweenservice:Create(bustweenmodel, bustweeninfo4, bustween9info)
+local bustween10 = tweenservice:Create(bustweenmodel, bustweeninfo4, bustween10info)
+local bustween11 = tweenservice:Create(bustweenmodel, bustweeninfo4, bustween11info)
+local bustween12 = tweenservice:Create(bustweenmodel, bustweeninfo5, bustween12info)
+
+local function camerachange()
+	busriderprox.Enabled = false
+	cam.CameraType = Enum.CameraType.Scriptable
+	cam.CFrame = busridercam.CFrame
+end
+
+local function talk1()
+	bussoundtween2:Play()
+	snoresoundtween2:Play()
+	task.wait(20)
+	busriderstart1:FireServer() --stops regular idle
+	busrider1.Activate("Psssst. Over here.")
+	busriderprox.Style = Enum.ProximityPromptStyle.Custom --Remove after trailer is done!!!
+	busriderend2:FireServer() --starts talking idle
+end
+
+local function talkx()
+	task.wait(0.5)
+	busriderstart2:FireServer() --stops talking idle
+	busrider2.Activate("Where ya headed?")
+	busrider3.Activate("Wayfield's a great place to visit. An idyllic little town.")
+	busrider4.Activate("Although I've heard Wayfield has some secrets...")
+	busrider5.Activate("If you ask around, you might learn a thing or two.")
+	busrider6.Activate("Looks like your stop's coming up.")
+	busriderend1:FireServer() -- starts normal idle again
+	cam.CameraType = Enum.CameraType.Custom
+	wait(2)
+	local bussound2 = game.Workspace.Bustweenmodel.Bussoundtween.Sound
+	local bussound2tween1 = tweenservice:Create(bussound2, tweeninfo, {Volume = 0})
+	local bussound2tween2 = tweenservice:Create(bussound2, tweeninfo, {Volume = 3})
+	local bussound3 = game.Workspace.Bustweenmodel.Bussoundtween.Sound2
+	local bussound3tween1 = tweenservice:Create(bussound3, tweeninfo, {Volume = 0})
+	local bussound3tween2 = tweenservice:Create(bussound3, tweeninfo, {Volume = 3})
+	local bussound4 = game.Workspace.Bustweenmodel.Bussoundtween.Sound3
+	local bussound4tween1 = tweenservice:Create(bussound4, tweeninfo, {Volume = 0})
+	local bussound4tween2 = tweenservice:Create(bussound4, tweeninfo2, {Volume = 2})
+	local bussound4tween3 = tweenservice:Create(bussound4, tweeninfo, {Volume = 2})
+	whitefade.Active = true
+	whitefadetweenout:Play()
+	bussoundtween:Play()
+	snoresoundtween:Play()
+	wait(5)
+	cam.CameraType = Enum.CameraType.Scriptable
+	cam.CFrame = campos1.CFrame
+	whitefadetweenin:Play()
+	wait(1)
+	whitefade.Active = false
+	bustween1:Play()
+	wait(4)
+	bussound4tween2:Play() -- brakes on (takes 3 secs)
+	wait(3)
+	bussound2tween1:Play()
+	bussound3tween2:Play()
+	bussound4tween1:Play() --brakes off (takes 1 sec) 			BUS STOP 1
+	wait(2)
+	cam.CFrame = campos2.CFrame
+	wait(1.5)
+	char.HumanoidRootPart.CFrame = charspawn.CFrame
+	bustween2:Play()
+	bus2animtrack:Play()
+	bussound2tween2:Play()
+	wait(1.5)
+	cam.CFrame = charspawn.CFrame
+	cam.CameraType = Enum.CameraType.Custom
+	char.Humanoid.WalkSpeed = 16
+	introfinished:FireServer()
+	wait(2)
+	bussound2tween1:Play()
+	bussound3tween2:Play()
+	bussound4tween3:Play()
+	wait(1)
+	bussound4tween1:Play()
+	wait(1)
+	bustween3:Play() --- BUS STOP 2
+	bus3animtrack:Play()
+	bussound2tween2:Play()
+	bussound3tween1:Play()
+	bussound4tween1:Play()
+	wait(1)
+	bustween4:Play()
+	wait(0.3)
+	bustween5:Play()
+	wait(0.3)
+	bustween6:Play()
+	wait(0.3)
+	bustween7:Play()
+	wait(0.3)
+	bustween8:Play()
+	wait(0.3)
+	bustween9:Play()
+	wait(0.3)
+	bustween10:Play()
+	wait(0.3)
+	bustween11:Play()
+	wait(0.3)
+	bustween12:Play()
+	screengui.Enabled = false
+end
+
+
+busintro.OnClientEvent:Connect(talk1)
+busriderprox.Triggered:Connect(function()
+	camerachange()
+	talkx()
+end)

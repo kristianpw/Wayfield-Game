@@ -1,0 +1,24 @@
+local player = game.Players.LocalPlayer
+local root = player:WaitForChild("HumanoidRootPart")
+local outside = game.Workspace.Sounds:WaitForChild("Outside")
+local currentArea = nil
+local ambientstart = game.ReplicatedStorage:FindFirstChild("ambientstart")
+local ambientend = game.ReplicatedStorage:FindFirstChild("ambientend")
+
+while true do
+	wait(0.1)
+	local raycast = Ray.new(root.Position, root.CFrame.UpVector * 1000)
+	local part = workspace:FindPartOnRayWithWhitelist(raycast, {outside})
+	if part and part.Parent == outside then
+		if currentArea ~= outside then
+			ambientstart:FireServer()
+			wait(0.5)
+			currentArea = outside
+			music.Volume = 1
+		end
+	else
+		ambientend:FireServer()
+		wait(0.5)
+		currentArea = nil
+	end
+end

@@ -1,0 +1,418 @@
+local cam = game.Workspace.CurrentCamera
+local BCcam = game.Workspace.bookclerkcam 											--camera
+local BCProx = game.Workspace.bookclerkproximity:FindFirstChild("ProximityPrompt") 	--proximity prompt
+local BCprompt = require(script:FindFirstChild("bookclerk"))  						--module script in NPCDialogue
+local bookstart = game.ReplicatedStorage.NPCevents:FindFirstChild("bookstart") 		--Remote event 1
+local bookend = game.ReplicatedStorage.NPCevents:FindFirstChild("bookend")  			--remote event 2
+local BCustcam = game.Workspace.bookcustcam
+local BCustprox = game.Workspace.bookcustproximity:FindFirstChild("ProximityPrompt")
+local BCustprompt = require(script:FindFirstChild("bookcustomer"))
+local Bcuststart = game.ReplicatedStorage.NPCevents:FindFirstChild("bookcuststart")
+local Bcustend = game.ReplicatedStorage.NPCevents:FindFirstChild("bookcustend")
+local BCust2cam = game.Workspace.bookcust2cam
+local BCust2prox = game.Workspace.bookcust2proximity:FindFirstChild("ProximityPrompt")
+local BCust2prompt = require(script:FindFirstChild("bookcustomer2"))
+local Bcust2start = game.ReplicatedStorage.NPCevents:FindFirstChild("bookcust2start")
+local Bcust2end = game.ReplicatedStorage.NPCevents:FindFirstChild("bookcust2end")
+local Hcustcam = game.Workspace.hankcustcam
+local HcProx = game.Workspace.hankcustproximity:FindFirstChild("ProximityPrompt")
+local Hcprompt = require(script:FindFirstChild("hankcust"))
+local Hcuststart = game.ReplicatedStorage.NPCevents:FindFirstChild("hankcuststart")
+local Hcustend = game.ReplicatedStorage.NPCevents:FindFirstChild("hankcustend")
+local DSCcam = game.Workspace.depstoreclerkcam
+local DSCProx = game.Workspace.depstoreclerkproximity:FindFirstChild("ProximityPrompt")
+local DSCprompt = require(script:FindFirstChild("depstoreclerk"))
+local DSCstart = game.ReplicatedStorage.NPCevents:FindFirstChild("depstoreclerkstart")
+local DSCend = game.ReplicatedStorage.NPCevents:FindFirstChild("depstoreclerkend")
+local DScus1cam = game.Workspace.depstorecust1cam
+local DScus1prox = game.Workspace.depstorecust1proximity:FindFirstChild("ProximityPrompt")
+local DScus1prompt = require(script:FindFirstChild("depstorecust1"))
+local DScus1start = game.ReplicatedStorage.NPCevents:FindFirstChild("depstorecust1start")
+local DScus1end = game.ReplicatedStorage.NPCevents:FindFirstChild("depstorecust1end")
+local DScus2cam = game.Workspace.depstorecust2cam
+local DScus2prox = game.Workspace.depstorecust2proximity:FindFirstChild("ProximityPrompt")
+local DScus2prompt = require(script:FindFirstChild("depstorecust2"))
+local DScus2start = game.ReplicatedStorage.NPCevents:FindFirstChild("depstorecust2start")
+local DScus2end = game.ReplicatedStorage.NPCevents:FindFirstChild("depstorecust2end")
+local Pizzacashcam = game.Workspace.pizzacashiercam
+local Pizzacashprox = game.Workspace.pizzacashierproximity:FindFirstChild("ProximityPrompt")
+local Pizzacashprompt = require(script:FindFirstChild("pizzacashier"))
+local Pizzacashstart = game.ReplicatedStorage.NPCevents:FindFirstChild("pizzacashierstart")
+local Pizzacashend = game.ReplicatedStorage.NPCevents:FindFirstChild("pizzacashierend")
+local Pizzacookcam = game.Workspace.pizzacookcam
+local Pizzacookprox = game.Workspace.pizzacookproximity:FindFirstChild("ProximityPrompt")
+local Pizzacookprompt = require(script:FindFirstChild("pizzacook"))
+local Pizzacookstart = game.ReplicatedStorage.NPCevents:FindFirstChild("pizzacookstart")
+local Pizzacookend = game.ReplicatedStorage.NPCevents:FindFirstChild("pizzacookend")
+local Pizzacust1cam = game.Workspace.pizzacust1cam
+local Pizzacust1prox = game.Workspace.pizzacust1proximity:FindFirstChild("ProximityPrompt")
+local Pizzacust1prompt = require(script:FindFirstChild("pizzacust1"))
+local Pizzacust1start = game.ReplicatedStorage.NPCevents:FindFirstChild("pizzacust1start")
+local Pizzacust1end = game.ReplicatedStorage.NPCevents:FindFirstChild("pizzacust1end")
+local Pizzacust4cam = game.Workspace.pizzacust4cam
+local Pizzacust4prox = game.Workspace.pizzacust4proximity:FindFirstChild("ProximityPrompt")
+local Pizzacust4prompt = require(script:FindFirstChild("pizzacust4"))
+local Pizzacust4start = game.ReplicatedStorage.NPCevents:FindFirstChild("pizzacust4start")
+local Pizzacust4end = game.ReplicatedStorage.NPCevents:FindFirstChild("pizzacust4end")
+local Pizzacust5cam = game.Workspace.pizzacust5cam
+local Pizzacust5prox = game.Workspace.pizzacust5proximity:FindFirstChild("ProximityPrompt")
+local Pizzacust5prompt = require(script:FindFirstChild("pizzacust5"))
+local Pizzacust5start = game.ReplicatedStorage.NPCevents:FindFirstChild("pizzacust5start")
+local Pizzacust5end = game.ReplicatedStorage.NPCevents:FindFirstChild("pizzacust5end")
+local Pizzacust6cam = game.Workspace.pizzacust6cam
+local Pizzacust6prox = game.Workspace.pizzacust6proximity:FindFirstChild("ProximityPrompt")
+local Pizzacust6prompt = require(script:FindFirstChild("pizzacust6"))
+local Pizzacust6start = game.ReplicatedStorage.NPCevents:FindFirstChild("pizzacust6start")
+local Pizzacust6end = game.ReplicatedStorage.NPCevents:FindFirstChild("pizzacust6end")
+local Pizzacust7cam = game.Workspace.pizzacust7cam
+local Pizzacust7prox = game.Workspace.pizzacust7proximity:FindFirstChild("ProximityPrompt")
+local Pizzacust7prompt = require(script:FindFirstChild("pizzacust7"))
+local Pizzacust7start = game.ReplicatedStorage.NPCevents:FindFirstChild("pizzacust7start")
+local Pizzacust7end = game.ReplicatedStorage.NPCevents:FindFirstChild("pizzacust7end")
+local Pizzacust8cam = game.Workspace.pizzacust8cam
+local Pizzacust8prox = game.Workspace.pizzacust8proximity:FindFirstChild("ProximityPrompt")
+local Pizzacust8prompt = require(script:FindFirstChild("pizzacust8"))
+local Pizzacust8start = game.ReplicatedStorage.NPCevents:FindFirstChild("pizzacust8start")
+local Pizzacust8end = game.ReplicatedStorage.NPCevents:FindFirstChild("pizzacust8end")
+local Icecreamownercam = game.Workspace.icecreamownercam
+local Icecreamownerprox = game.Workspace.icecreamownerproximity:FindFirstChild("ProximityPrompt")
+local Icecreamownerprompt = require(script:FindFirstChild("icecreamowner"))
+local Icecreamownertart = game.ReplicatedStorage.NPCevents:FindFirstChild("icecreamownerstart")
+local Icecreamownerend = game.ReplicatedStorage.NPCevents:FindFirstChild("icecreamownerend")
+local Icecreamcust2cam = game.Workspace.icecreamcust2cam
+local Icecreamcust2prox = game.Workspace.icecreamcust2proximity:FindFirstChild("ProximityPrompt")
+local Icecreamcust2prompt = require(script:FindFirstChild("icecreamcust2"))
+local Icecreamcust2start = game.ReplicatedStorage.NPCevents:FindFirstChild("icecreamcust2start")
+local Icecreamcust2end = game.ReplicatedStorage.NPCevents:FindFirstChild("icecreamcust2end")
+local Icecreamcust3cam = game.Workspace.icecreamcust3cam
+local Icecreamcust3prox = game.Workspace.icecreamcust3proximity:FindFirstChild("ProximityPrompt")
+local Icecreamcust3prompt = require(script:FindFirstChild("icecreamcust3"))
+local Icecreamcust3start = game.ReplicatedStorage.NPCevents:FindFirstChild("icecreamcust3start")
+local Icecreamcust3end = game.ReplicatedStorage.NPCevents:FindFirstChild("icecreamcust3end")
+local Sidewalkgirl1cam = game.Workspace.sidewalkgirl1cam
+local Sidewalkgirl1prox = game.Workspace.sidewalkgirl1proximity:FindFirstChild("ProximityPrompt")
+local Sidewalkgirl1prompt = require(script:FindFirstChild("sidewalkgirl1"))
+local Sidewalkgirl1start = game.ReplicatedStorage.NPCevents:FindFirstChild("sidewalkgirl1start")
+local Sidewalkgirl1end = game.ReplicatedStorage.NPCevents:FindFirstChild("sidewalkgirl1end")
+local Conworker1cam = game.Workspace.conworker1cam
+local Conworker1prox = game.Workspace.conworker1proximity:FindFirstChild("ProximityPrompt")
+local Conworker1prompt = require(script:FindFirstChild("conworker1"))
+local Conworker1start = game.ReplicatedStorage.NPCevents:FindFirstChild("conworker1start")
+local Conworker1end = game.ReplicatedStorage.NPCevents:FindFirstChild("conworker1end")
+local Parkladycam = game.Workspace.parkladycam
+local Parkladyprox = game.Workspace.parkladyproximity:FindFirstChild("ProximityPrompt")
+local Parkladyprompt = require(script:FindFirstChild("parklady"))
+local Parkladystart = game.ReplicatedStorage.NPCevents:FindFirstChild("parkladystart")
+local Parkladyend = game.ReplicatedStorage.NPCevents:FindFirstChild("parkladyend")
+local Hotdogguycam = game.Workspace.hotdogguycam
+local Hotdogguyprox = game.Workspace.hotdogguyproximity:FindFirstChild("ProximityPrompt")
+local Hotdogguyprompt = require(script:FindFirstChild("hotdogguy"))
+local Hotdogguystart = game.ReplicatedStorage.NPCevents:FindFirstChild("hotdogguystart")
+local Hotdogguyend = game.ReplicatedStorage.NPCevents:FindFirstChild("hotdogguyend")
+local Pigeonladycam = game.Workspace.pigeonladycam
+local Pigeonladyprox = game.Workspace.pigeonladyproximity:FindFirstChild("ProximityPrompt")
+local Pigeonladyprompt = require(script:FindFirstChild("pigeonlady"))
+local Pigeonladystart = game.ReplicatedStorage.NPCevents:FindFirstChild("pigeonladystart")
+local Pigeonladyend = game.ReplicatedStorage.NPCevents:FindFirstChild("pigeonladyend")
+local Parklady2cam = game.Workspace.parklady2cam
+local Parklady2prox = game.Workspace.parklady2proximity:FindFirstChild("ProximityPrompt")
+local Parklady2prompt = require(script:FindFirstChild("parklady2"))
+local Parklady2start = game.ReplicatedStorage.NPCevents:FindFirstChild("parklady2start")
+local Parklady2end = game.ReplicatedStorage.NPCevents:FindFirstChild("parklady2end")
+local Parkguycam = game.Workspace.parkguycam
+local Parkguyprox = game.Workspace.parkguyproximity:FindFirstChild("ProximityPrompt")
+local Parkguyprompt = require(script:FindFirstChild("parkguy"))
+local Parkguystart = game.ReplicatedStorage.NPCevents:FindFirstChild("parkguystart")
+local Parkguyend = game.ReplicatedStorage.NPCevents:FindFirstChild("parkguyend")
+local Dinercust1cam = game.Workspace.dinercust1cam
+local Dinercust1prox = game.Workspace.dinercust1proximity:FindFirstChild("ProximityPrompt")
+local Dinercust1prompt = require(script:FindFirstChild("dinercust1"))
+local Dinercust1start = game.ReplicatedStorage.NPCevents:FindFirstChild("dinercust1start")
+local Dinercust1end = game.ReplicatedStorage.NPCevents:FindFirstChild("dinercust1end")
+local Dinercust2cam = game.Workspace.dinercust2cam
+local Dinercust2prox = game.Workspace.dinercust2proximity:FindFirstChild("ProximityPrompt")
+local Dinercust2prompt = require(script:FindFirstChild("dcust2"))
+local Dinercust2start = game.ReplicatedStorage.NPCevents:FindFirstChild("dcust2start")
+local Dinercust2end = game.ReplicatedStorage.NPCevents:FindFirstChild("dcust2end")
+local Dinercust4cam = game.Workspace.dinercust4cam
+local Dinercust4prox = game.Workspace.dinercust4proximity:FindFirstChild("ProximityPrompt")
+local Dinercust4prompt = require(script:FindFirstChild("dcust4"))
+local Dinercust4start = game.ReplicatedStorage.NPCevents:FindFirstChild("dcust4start")
+local Dinercust4end = game.ReplicatedStorage.NPCevents:FindFirstChild("dcust4end")
+local Dinerserver1cam = game.Workspace.dinerserver1cam
+local Dinerserver1prox = game.Workspace.dinerserver1proximity:FindFirstChild("ProximityPrompt")
+local Dinerserver1prompt = require(script:FindFirstChild("dinerserver1"))
+local Dinerserver1start = game.ReplicatedStorage.NPCevents:FindFirstChild("dserver1start")
+local Dinerserver1end = game.ReplicatedStorage.NPCevents:FindFirstChild("dserver1end")
+local Dinercust8cam = game.Workspace.dinercust8cam
+local Dinercust8prox = game.Workspace.dinercust8proximity:FindFirstChild("ProximityPrompt")
+local Dinercust8prompt = require(script:FindFirstChild("dcust8"))
+local Dinercust8start = game.ReplicatedStorage.NPCevents:FindFirstChild("dcust8start")
+local Dinercust8end = game.ReplicatedStorage.NPCevents:FindFirstChild("dcust8end")
+local Dinercust9cam = game.Workspace.dinercust9cam
+local Dinercust9prox = game.Workspace.dinercust9proximity:FindFirstChild("ProximityPrompt")
+local Dinercust9prompt = require(script:FindFirstChild("dcust9"))
+local Dinercust9start = game.ReplicatedStorage.NPCevents:FindFirstChild("dcust9start")
+local Dinercust9end = game.ReplicatedStorage.NPCevents:FindFirstChild("dcust9end")
+local Dinercust10cam = game.Workspace.dinercust10cam
+local Dinercust10prox = game.Workspace.dinercust10proximity:FindFirstChild("ProximityPrompt")
+local Dinercust10prompt = require(script:FindFirstChild("dcust10"))
+local Dinercust10start = game.ReplicatedStorage.NPCevents:FindFirstChild("dcust10start")
+local Dinercust10end = game.ReplicatedStorage.NPCevents:FindFirstChild("dcust10end")
+local Dinercust11cam = game.Workspace.dinercust11cam
+local Dinercust11prox = game.Workspace.dinercust11proximity:FindFirstChild("ProximityPrompt")
+local Dinercust11prompt = require(script:FindFirstChild("dcust11"))
+local Dinercust11start = game.ReplicatedStorage.NPCevents:FindFirstChild("dcust11start")
+local Dinercust11end = game.ReplicatedStorage.NPCevents:FindFirstChild("dcust11end")
+
+--dserver3
+local dserver3cam = game.Workspace.dserver3cam
+local dserver3prox = game.Workspace.dserver3proximity:FindFirstChild("ProximityPrompt")
+local dserver3start = game.ReplicatedStorage.NPCevents:FindFirstChild("dserver3start")
+local dserver3end = game.ReplicatedStorage.NPCevents:FindFirstChild("dserver3end")
+local dserver3talk1 = require(script:FindFirstChild("Dserver3ModuleScript1"))
+local dserver3talk2 = require(script:FindFirstChild("Dserver3ModuleScript2"))
+
+--Pizzacust2
+local pizzacust2cam = game.Workspace.pizzacust2cam
+local pizzacust2prox = game.Workspace.pizzacust2proximity:FindFirstChild("ProximityPrompt")
+local pizzacust2start = game.ReplicatedStorage.NPCevents:FindFirstChild("pizzacust2start")
+local pizzacust2end = game.ReplicatedStorage.NPCevents:FindFirstChild("pizzacust2end")
+local pizzacust2talk1 = require(script:FindFirstChild("Pizzacust2ModuleScript1"))
+local pizzacust2talk2 = require(script:FindFirstChild("Pizzacust2ModuleScript2"))
+
+--Icecreamcust1
+local Icecreamcust1cam = game.Workspace.icecreamcust1cam
+local Icecreamcust1prox = game.Workspace.icecreamcust1proximity:FindFirstChild("ProximityPrompt")
+local Icecreamcust1talk1 = require(script:FindFirstChild("Icecreamcust1ModuleScript1"))
+local Icecreamcust1talk2 = require(script:FindFirstChild("Icecreamcust1ModuleScript2"))
+local Icecreamcust1start = game.ReplicatedStorage.NPCevents:FindFirstChild("icecreamcust1start")
+local Icecreamcust1end = game.ReplicatedStorage.NPCevents:FindFirstChild("icecreamcust1end")
+
+local a = {}
+
+local function proxtriggered(proxtrigger, proxcamera)
+	character = game.Players.LocalPlayer.Character
+	for i, v in pairs(character:GetDescendants())do
+		if v:IsA('BasePart') then
+			a[v] = v.Transparency
+			v.Transparency = 1
+		end
+	end
+	proxtrigger.Enabled = false
+	cam.CameraType = Enum.CameraType.Scriptable
+	cam.CFrame = proxcamera.CFrame
+end
+
+local function dialogueactivate(proxtrigger)
+	if proxtrigger == BCProx then							--add new elseif for new NPC added
+		bookstart:FireServer()
+		BCprompt.Activate("Welcome to The Corner Bookstore. Feel free to look around and let me know if you need any help.")	
+		bookend:FireServer()
+	elseif proxtrigger == BCustprox then
+		Bcuststart:FireServer()
+		BCustprompt.Activate("This is my favorite bookstore. There's so much history in these books!")
+		Bcustend:FireServer()
+	elseif proxtrigger == BCust2prox then
+		Bcust2start:FireServer()
+		BCust2prompt.Activate("I’m trying to find books on Wayfield’s past. It had a history of sects during its founding.")
+		Bcust2end:FireServer()
+	elseif proxtrigger == HcProx then
+		Hcuststart:FireServer()
+		Hcprompt.Activate("I wish I wrote down what size I needed before coming here…")
+		Hcustend:FireServer()
+	elseif proxtrigger == DSCProx then
+		DSCstart:FireServer()
+		DSCprompt.Activate("Welcome! Please look around and explore our high end clothes, jewelry and accessories.")
+		DSCend:FireServer()
+	elseif proxtrigger == DScus1prox then
+		DScus1start:FireServer()
+		DScus1prompt.Activate("I just can't decide on which one to choose…")
+		DScus1end:FireServer()
+	elseif proxtrigger == DScus2prox then
+		DScus2start:FireServer()
+		DScus2prompt.Activate("If you ever need any tools, Hank’s Hardware across the street is the place to go.")
+		DScus2end:FireServer()
+	elseif proxtrigger == Pizzacashprox then
+		Pizzacashstart:FireServer()
+		Pizzacashprompt.Activate("Welcome to Tom's Pizza! Can I take your order?")
+		Pizzacashend:FireServer()
+	elseif proxtrigger == Pizzacookprox then
+		Pizzacookstart:FireServer()
+		Pizzacookprompt.Activate("What are you doing back here?")
+		Pizzacookend:FireServer()
+	elseif proxtrigger == Pizzacust1prox then
+		Pizzacust1start:FireServer()
+		Pizzacust1prompt.Activate("This place has the best pizza in town.")
+		Pizzacust1end:FireServer()
+	elseif proxtrigger == Pizzacust4prox then
+		Pizzacust4start:FireServer()
+		Pizzacust4prompt.Activate("Have you ever seen that old crazy man in town before? He lives in the apartment just through the alleyway behind here. Kinda spooky...")
+		Pizzacust4end:FireServer()
+	elseif proxtrigger == Pizzacust5prox then
+		Pizzacust5start:FireServer()
+		Pizzacust5prompt.Activate("I can't wait for the movie theater to open up. I'm excited to see RoWar!")
+		Pizzacust5end:FireServer()
+	elseif proxtrigger == Pizzacust6prox then
+		Pizzacust6start:FireServer()
+		Pizzacust6prompt.Activate("Everyone loves coming to Tom's Pizza after school.")
+		Pizzacust6end:FireServer()
+	elseif proxtrigger == Pizzacust7prox then
+		Pizzacust7start:FireServer()
+		Pizzacust7prompt.Activate("There's so much to do these days along Main Street.")
+		Pizzacust7end:FireServer()
+	elseif proxtrigger ==  Pizzacust8prox then
+		Pizzacust8start:FireServer()
+		Pizzacust8prompt.Activate("There's a certain charm to sitting back and watching the rhythm of the town through the frame of a window.")
+		Pizzacust8end:FireServer()
+	elseif proxtrigger == Icecreamownerprox then
+		Icecreamownertart:FireServer()
+		Icecreamownerprompt.Activate("Welcome to my ice cream shop where we've got 12 different flavors!")
+		Icecreamownerend:FireServer()
+	elseif proxtrigger == Icecreamcust2prox then
+		Icecreamcust2start:FireServer()
+		Icecreamcust2prompt.Activate("My dad takes me to get ice cream whenever I get good grades!")
+		Icecreamcust2end:FireServer()
+	elseif proxtrigger == Icecreamcust3prox then
+		Icecreamcust3start:FireServer()
+		Icecreamcust3prompt.Activate("If my kid keeps doing so well in school, he's gonna end up with cavities.")
+		Icecreamcust3end:FireServer()
+	elseif proxtrigger == Sidewalkgirl1prox then
+		Sidewalkgirl1start:FireServer()
+		Sidewalkgirl1prompt.Activate("Sorry, I'm just catching up with my friend.")
+		Sidewalkgirl1end:FireServer()
+	elseif proxtrigger == Conworker1prox then
+		Conworker1start:FireServer()
+		Conworker1prompt.Activate("Can’t you see I’m on my lunch break? Scram!")
+		Conworker1end:FireServer()
+	elseif proxtrigger == Parkladyprox then
+		Parkladystart:FireServer()
+		Parkladyprompt.Activate("I love coming to the park with my son and just listening to the birds sing.")
+		Parkladyend:FireServer()
+	elseif proxtrigger == Hotdogguyprox then
+		Hotdogguystart:FireServer()
+		Hotdogguyprompt.Activate("Lovely day in Wayfield, ain't it?")
+		Hotdogguyend:FireServer()
+	elseif proxtrigger == Pigeonladyprox then
+		Pigeonladystart:FireServer()
+		Pigeonladyprompt.Activate("I've noticed some interesting people just watching Wayfield.")
+		Pigeonladyend:FireServer()
+	elseif proxtrigger == Parkguyprox then
+		Parkguystart:FireServer()
+		Parkguyprompt.Activate("This is the best time of year to come out to the park, feed the ducks and have a nice picnic.")
+		Parkguyend:FireServer()
+	elseif proxtrigger == Parklady2prox then
+		Parklady2start:FireServer()
+		Parklady2prompt.Activate("A lot of people gossip about the 'kook' above Tom's Pizza, but I think he's just an innocent old man.")
+		Parklady2end:FireServer()
+	elseif proxtrigger == Dinercust1prox then
+		Dinercust1start:FireServer()
+		Dinercust1prompt.Activate("There've been a few disappearances around town lately. It's quite concerning...")
+		Dinercust1end:FireServer()
+	elseif proxtrigger == Dinercust2prox then
+		Dinercust2start:FireServer()
+		Dinercust2prompt.Activate("Everyone's planning on going to the movies when the theater opens this Friday.")
+		Dinercust2end:FireServer()
+	elseif proxtrigger == Dinercust4prox then
+		Dinercust4start:FireServer()
+		Dinercust4prompt.Activate("I saw that crazy old guy in the park the other night with a shovel. He has to be up to no good.")
+		Dinercust4end:FireServer()
+	elseif proxtrigger == Dinerserver1prox then
+		Dinerserver1start:FireServer()
+		Dinerserver1prompt.Activate("Sorry, hun. I'm just taking these folks' order.")
+		Dinerserver1end:FireServer()
+	elseif proxtrigger  == Dinercust8prox then
+		Dinercust8start:FireServer()
+		Dinercust8prompt.Activate("The Wayfield Times covers everything that happens in Wayfield. If something interesting happened, it'll be in the newspaper.")
+		Dinercust8end:FireServer()
+	elseif proxtrigger == Dinercust9prox then
+		Dinercust9start:FireServer()
+		Dinercust9prompt.Activate("The jukebox plays the best rock music!")
+		Dinercust9end:FireServer()
+	elseif proxtrigger == Dinercust10prox then
+		Dinercust10start:FireServer()
+		Dinercust10prompt.Activate("Getting a coffee here after work really helps me wind down.")
+		Dinercust10end:FireServer()
+	elseif proxtrigger == Dinercust11prox then
+		Dinercust10start:FireServer()
+		Dinercust11prompt.Activate("You better be careful when walking alone at night. Weird things happen at dark in this town.")
+		Dinercust11end:FireServer()
+		
+		--Branching Dialogue
+		
+	elseif proxtrigger == dserver3prox then				
+		dserver3start:FireServer()
+		dserver3talk1.Activate("Someone keeps putting graffiti on the diner. It's probably some local kids messing with me...")
+		dserver3talk2.Activate("Yeah, last week I had to clean off 'The end is near' and some weird looking symbols.")
+		dserver3end:FireServer()
+	elseif proxtrigger == pizzacust2prox then
+		pizzacust2start:FireServer()
+		pizzacust2talk1.Activate("Did you know there's an old crazy kook that lives right above us?")
+		pizzacust2talk2.Activate("Just out through the back door there's a staircase to his apartment in the alleyway. I'd be careful if I were you, though.")
+		pizzacust2end:FireServer()
+	elseif proxtrigger == Icecreamcust1prox then
+		Icecreamcust1start:FireServer()
+		Icecreamcust1talk1.Activate("I saw that old man in the park the other night...")
+		Icecreamcust1talk1.Activate("He was digging in the sandbox. Very strange...")
+		Icecreamcust1end:FireServer()
+	end
+	for i, v in pairs(character:GetDescendants())do
+		if v:IsA('BasePart') then
+			v.Transparency = a[v]
+		end
+	end
+end
+
+
+local proxtable = {
+	{prox = BCProx, camera = BCcam},   						--add new table for new NPC added
+	{prox = BCustprox, camera = BCustcam},
+	{prox = BCust2prox, camera = BCust2cam},
+	{prox = HcProx, camera = Hcustcam},
+	{prox = DSCProx, camera = DSCcam},
+	{prox = DScus1prox, camera = DScus1cam},
+	{prox = DScus2prox, camera = DScus2cam},
+	{prox = Pizzacashprox, camera = Pizzacashcam},
+	{prox = Pizzacookprox, camera = Pizzacookcam},
+	{prox = Pizzacust1prox, camera = Pizzacust1cam},
+	{prox = Pizzacust4prox, camera = Pizzacust4cam},
+	{prox = Pizzacust5prox, camera = Pizzacust5cam},
+	{prox = Pizzacust6prox, camera = Pizzacust6cam},
+	{prox = Pizzacust7prox, camera = Pizzacust7cam},
+	{prox = Pizzacust8prox, camera = Pizzacust8cam},
+	{prox = Icecreamownerprox, camera = Icecreamownercam},
+	{prox = Icecreamcust1prox,camera = Icecreamcust1cam},
+	{prox = Icecreamcust2prox, camera = Icecreamcust2cam},
+	{prox = Icecreamcust3prox, camera = Icecreamcust3cam},
+	{prox = Sidewalkgirl1prox, camera = Sidewalkgirl1cam},
+	{prox = Conworker1prox, camera = Conworker1cam},
+	{prox = Parkladyprox, camera = Parkladycam},
+	{prox = Hotdogguyprox, camera = Hotdogguycam},
+	{prox = Pigeonladyprox, camera = Pigeonladycam},
+	{prox = Parkguyprox, camera = Parkguycam},
+	{prox = Parklady2prox, camera = Parklady2cam},
+	{prox = Dinercust1prox, camera = Dinercust1cam},
+	{prox = Dinercust2prox, camera = Dinercust2cam},
+	{prox = Dinercust4prox, camera = Dinercust4cam},
+	{prox = Dinerserver1prox, camera = Dinerserver1cam},
+	{prox = Dinercust8prox, camera = Dinercust8cam},
+	{prox = Dinercust9prox, camera = Dinercust9cam},
+	{prox = Dinercust10prox, camera = Dinercust10cam},
+	{prox = Dinercust11prox, camera = Dinercust11cam},
+	
+	--Branching Dialogue
+	
+	{prox = dserver3prox, camera = dserver3cam},
+	{prox = pizzacust2prox, camera = pizzacust2cam}
+}
+
+for _, data in pairs(proxtable) do
+	local proxvar = data.prox
+	local camvar = data.camera
+	proxvar.Triggered:Connect(function()
+		proxtriggered(proxvar, camvar)
+	end)
+	proxvar.Triggered:Connect(function()
+		dialogueactivate(proxvar)
+	end)
+end
